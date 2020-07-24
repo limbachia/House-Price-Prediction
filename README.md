@@ -1,4 +1,4 @@
-# House-Price-Prediction
+# House Price Prediction
 
 This project uses Ames, Iowa housing dataset compiled by Dean De Cook. Dataset is available on [Kaggle](https://www.kaggle.com/c/house-prices-advanced-regression-techniques)
 
