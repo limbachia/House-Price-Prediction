@@ -1,0 +1,2 @@
+# House-Price-Prediction
+The goal of this project was to develop a machine learning regression model that predicts the prices of houses in Ames, Iowa. The Ames, Iowa housing dataset is compiled by Dean De Cook, and is made available on Kaggle.  I successfully implemented a lasso regression model that performed with a root-mean-squared-error of 0.1184 on out-of-sample data (tested by kaggle). My submission is placed in the top 5% of kaggle's leaderboard (https://www.kaggle.com/c/house-prices-advanced-regression-techniques/leaderboard#score).
