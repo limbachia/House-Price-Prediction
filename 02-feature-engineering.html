@@ -1,0 +1,879 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>3. Statistical Data Analysis &#8212; Ames, Iowa Housing Dataset</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/sphinx-book-theme.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/togglebutton.js"></script>
+    <script type="text/javascript" src="_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="_static/copybutton.js"></script>
+    <script type="text/javascript" src="_static/mystnb.js"></script>
+    <script type="text/javascript" src="_static/sphinx-book-theme.js"></script>
+    <script type="text/javascript">var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+    <script async="async" type="text/javascript" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script type="text/javascript">
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" type="text/javascript" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="4. Model Building" href="03-model-building.html" />
+    <link rel="prev" title="2. Data Storytelling" href="01-data-storytelling.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  <img src="_static/logo.jpg" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Ames, Iowa Housing Dataset</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   House Price Prediction
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="00-data-wrangling.html">
+   1.
+   <strong>
+    Data Wrangling
+   </strong>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-data-storytelling.html">
+   2. Data Storytelling
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   3. Statistical Data Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-model-building.html">
+   4. Model Building
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-model-building.html#table-of-contents">
+   5. Table of Contents
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/02-feature-engineering.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> On this page
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#numerical-features">
+   3.1. Numerical Features
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#correlation-amongst-numerical-features">
+     3.1.1. Correlation amongst Numerical Features
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#correlation-with-sale-price">
+     3.1.2. Correlation with Sale Price
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#categorical-features">
+   3.2. Categorical Features
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#non-parametric-anova">
+     3.2.1. Non-parametric ANOVA
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ordinal-features">
+     3.2.2. Ordinal Features
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#one-hot-ecoding-one-hot-encode-following-features">
+     3.2.3. One hot ecoding: one hot encode following features
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#interactions">
+   3.3. Interactions
+  </a>
+ </li>
+</ul>
+
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">HTML</span>
+
+<span class="n">HTML</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;&lt;script&gt;</span>
+<span class="s1">code_show=true; </span>
+<span class="s1">function code_toggle() {</span>
+<span class="s1"> if (code_show){</span>
+<span class="s1"> $(&#39;div.input&#39;).hide();</span>
+<span class="s1"> } else {</span>
+<span class="s1"> $(&#39;div.input&#39;).show();</span>
+<span class="s1"> }</span>
+<span class="s1"> code_show = !code_show</span>
+<span class="s1">} </span>
+<span class="s1">$( document ).ready(code_toggle);</span>
+<span class="s1">&lt;/script&gt;</span>
+<span class="s1">&lt;form action=&quot;javascript:code_toggle()&quot;&gt;&lt;input type=&quot;submit&quot; value=&quot;Show Code&quot;&gt;&lt;/form&gt;&#39;&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><script>
+code_show=true; 
+function code_toggle() {
+ if (code_show){
+ $('div.input').hide();
+ } else {
+ $('div.input').show();
+ }
+ code_show = !code_show
+} 
+$( document ).ready(code_toggle);
+</script>
+<form action="javascript:code_toggle()"><input type="submit" value="Show Code"></form></div></div>
+</div>
+<div class="section" id="statistical-data-analysis">
+<h1>3. Statistical Data Analysis<a class="headerlink" href="#statistical-data-analysis" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import useful libraries</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span> <span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span><span class="n">font_scale</span><span class="o">=</span><span class="mf">1.25</span><span class="p">)</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="c1"># Import all functions</span>
+<span class="kn">from</span> <span class="nn">functions</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="c1"># Set waring to &#39;ignore&#39; to prevent them from prining on screen</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/wrangled_data.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">housing_orig</span><span class="p">,</span> <span class="n">FEATURES</span><span class="p">,</span><span class="n">transformers</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing</span> <span class="o">=</span> <span class="n">housing_orig</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">housing</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">SalePrice</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="numerical-features">
+<h2>3.1. Numerical Features<a class="headerlink" href="#numerical-features" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing_num</span> <span class="o">=</span> <span class="n">housing</span><span class="p">[</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;num&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;aug_num&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="correlation-amongst-numerical-features">
+<h3>3.1.1. Correlation amongst Numerical Features<a class="headerlink" href="#correlation-amongst-numerical-features" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">housing_num</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;spearman&#39;</span><span class="p">),</span>
+            <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">vmin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span>
+            <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.2f&#39;</span><span class="p">,</span><span class="n">annot_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span><span class="mi">8</span><span class="p">})</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Feature correlation matrix&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/02-feature-engineering_8_0.png" src="_images/02-feature-engineering_8_0.png" />
+</div>
+</div>
+<p>Several numerical features are highly correlated with one another. Highest positive correlation is between house and garage year built (<strong>YearBuilt</strong> and <strong>GarageYrBlt</strong>). This is not unexpected, as most house garages are built along with the house itself. A new feature called <strong>GarageYrBltMinusYearBuilt</strong> is created, which models the difference between the year in which the garage and the house was built.</p>
+<p>Second highest positive correlation is between total number of rooms (<strong>TotRmsAbvGrd</strong>) and log of total square feet area above ground (<strong>log1p(GrLivArea)</strong>). Its highly likely that <strong>TotRmsAbvGrd</strong> is highly correlated with <strong>GrLivArea</strong> itself. This is expected as houses with greater area tend to have more number of rooms. A new feature called <strong>AreaPerRoom</strong> is added, which models the average area per room by dividing the <strong>TotRmsAbvGrd</strong> by <strong>GrLivArea</strong>.</p>
+<p>Let’s check the correlation matrix again.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">FunctionTransformer</span>
+
+<span class="k">def</span> <span class="nf">addFeatures</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">new_features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;AreaPerRoom&#39;</span><span class="p">,</span><span class="s1">&#39;GarageYrBltMinusYearBuilt&#39;</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">new_features</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">feat</span> <span class="o">==</span> <span class="s1">&#39;AreaPerRoom&#39;</span><span class="p">:</span>
+            <span class="c1">#GrLivArea = np.expm1(X[&#39;log1p(GrLivArea)&#39;])</span>
+            <span class="n">X</span><span class="p">[</span><span class="s1">&#39;AreaPerRoom&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="s1">&#39;GrLivArea&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">TotRmsAbvGrd</span><span class="p">)</span>
+            <span class="n">X</span><span class="p">[</span><span class="s1">&#39;log1p(AreaPerRoom)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">AreaPerRoom</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">feat</span> <span class="o">==</span> <span class="s1">&#39;GarageYrBltMinusYearBuilt&#39;</span><span class="p">:</span>
+            <span class="n">X</span><span class="p">[</span><span class="s1">&#39;GarageYrBltMinusYearBuilt&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;GarageYrBlt&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">YearBuilt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X</span>
+
+<span class="n">feature_adder</span> <span class="o">=</span> <span class="n">FunctionTransformer</span><span class="p">(</span><span class="n">addFeatures</span><span class="p">,</span><span class="n">validate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">kw_args</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">new_features</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;AreaPerRoom&#39;</span><span class="p">,</span><span class="s1">&#39;GarageYrBltMinusYearBuilt&#39;</span><span class="p">]))</span>
+<span class="n">transformers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;feature_adder&#39;</span><span class="p">,</span><span class="n">feature_adder</span><span class="p">))</span>
+<span class="n">housing</span> <span class="o">=</span> <span class="n">feature_adder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">housing</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#GrLivArea = np.expm1(housing_num[&#39;log1p(GrLivArea)&#39;])</span>
+<span class="n">housing_num</span><span class="p">[</span><span class="s1">&#39;AreaPerRoom&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">housing_num</span><span class="p">[</span><span class="s1">&#39;GrLivArea&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">housing_num</span><span class="o">.</span><span class="n">TotRmsAbvGrd</span><span class="p">)</span>
+<span class="n">housing_num</span><span class="p">[</span><span class="s1">&#39;log1p(AreaPerRoom)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">housing_num</span><span class="p">[</span><span class="s1">&#39;AreaPerRoom&#39;</span><span class="p">])</span>
+<span class="n">housing_num</span><span class="p">[</span><span class="s1">&#39;GarageYrBltMinusYearBuilt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">housing_num</span><span class="p">[</span><span class="s1">&#39;GarageYrBlt&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">housing_num</span><span class="o">.</span><span class="n">YearBuilt</span><span class="p">)</span>
+
+<span class="c1"># Add the engineered features</span>
+<span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;eng_num&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;AreaPerRoom&#39;</span><span class="p">,</span><span class="s1">&#39;log1p(AreaPerRoom)&#39;</span><span class="p">,</span><span class="s1">&#39;GarageYrBltMinusYearBuilt&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing_num</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">housing</span><span class="p">[</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;num&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;aug_num&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;eng_num&#39;</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">housing_num</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;spearman&#39;</span><span class="p">),</span>
+            <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">vmin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span>
+            <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.2f&#39;</span><span class="p">,</span><span class="n">annot_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span><span class="mi">8</span><span class="p">})</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Feature correlation matrix after adding two new features&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/02-feature-engineering_13_0.png" src="_images/02-feature-engineering_13_0.png" />
+</div>
+</div>
+<p>Unlike the parent features, the newly added features (<strong>AreaPerRoom</strong> and <strong>GarageYrBltMinusYearBuilt</strong>) are not that highly correlated with the rest of the features. Neither are they highly correlated with the parent features.</p>
+</div>
+<div class="section" id="correlation-with-sale-price">
+<h3>3.1.2. Correlation with Sale Price<a class="headerlink" href="#correlation-with-sale-price" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing_num</span><span class="o">.</span><span class="n">corrwith</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;spearman&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Spearman correaltion with Sale Price&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=-</span><span class="mf">0.4</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x7f494061a668&gt;
+</pre></div>
+</div>
+<img alt="_images/02-feature-engineering_16_1.png" src="_images/02-feature-engineering_16_1.png" />
+</div>
+</div>
+<p>Several features are highly correlated (&gt; 0.4) with the sale price. One of the engineered (newly added) features, <strong>AreaPerRoom</strong>, is also highly correlated (~0.6) with the sale price. In fact, it is more correlated than one of its parent features from which it is derived (<strong>TotRmsAbvGrd</strong>). <strong>GarageYrBlitMinusYearBuilt</strong> is another engineered feature. It has the highest negative correlation with the sale price. Both engineered features are candidates for predicting the sale price.</p>
+<p>Comments/Observation:</p>
+<ul class="simple">
+<li><p>Following numercial features showed strong positve correlation (&gt;= 0.4) with the sale price (listed in descending order of their correlation strength with sale price).</p>
+<ul>
+<li><p>Overall Quality (<strong>OverallQual</strong>)</p></li>
+<li><p>Above grade living area in sq. ft. (<strong>GrLivArea</strong>)</p></li>
+<li><p>Total garage car capacity in number of cars (<strong>GarageCars</strong>)</p></li>
+<li><p>Year built (<strong>YrBuilt</strong>)</p></li>
+<li><p>Garage area in sq.ft (<strong>GarageArea</strong>)</p></li>
+<li><p>Number of full bathrooms above grade (<strong>FullBath</strong>)</p></li>
+<li><p>Total area of the basement in sq. ft. (<strong>TotalBsmtSF</strong>)</p></li>
+<li><p>Average size of a room in sq. ft. (<strong>AreaPerRoom</strong>)</p></li>
+<li><p>Year when the house of remodeled (<strong>YearRemodAdd</strong>)</p></li>
+<li><p>Garage year built (<strong>GarageYrBlt</strong>)</p></li>
+<li><p>Area of the first floor in sq. ft.(<strong>1stFlrSF</strong>)</p></li>
+<li><p>Total rooms above grade (<strong>TotRmsAbvGrd</strong>)</p></li>
+<li><p>Number of fireplaces (<strong>FirePlaces</strong>)</p></li>
+<li><p>Open porch area in sq. ft. (<strong>OpenPorchSF</strong>)</p></li>
+<li><p>Lot Area in sq. ft. (<strong>LotArea</strong>)</p></li>
+<li><p>Masonry veneer area in sq, ft. (<strong>MasVnrArea</strong>)</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="categorical-features">
+<h2>3.2. Categorical Features<a class="headerlink" href="#categorical-features" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="non-parametric-anova">
+<h3>3.2.1. Non-parametric ANOVA<a class="headerlink" href="#non-parametric-anova" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="n">housing_cat</span> <span class="o">=</span> <span class="n">housing</span><span class="p">[</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;cat&#39;</span><span class="p">]]</span>
+<span class="k">def</span> <span class="nf">anova</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+    <span class="n">anv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">anv</span><span class="p">[</span><span class="s1">&#39;feature&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span>
+    <span class="n">pvals</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">frame</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">frame</span><span class="p">[</span><span class="n">frame</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">==</span> <span class="bp">cls</span><span class="p">][</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">pval</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">kruskal</span><span class="p">(</span><span class="o">*</span><span class="n">samples</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">pvals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pval</span><span class="p">)</span>
+    <span class="n">anv</span><span class="p">[</span><span class="s1">&#39;pval&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pvals</span>
+    <span class="k">return</span> <span class="n">anv</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;pval&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">anova</span><span class="p">(</span><span class="n">housing_cat</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">housing</span><span class="o">.</span><span class="n">SalePrice</span><span class="p">))</span>
+<span class="n">a</span><span class="p">[</span><span class="s1">&#39;disparity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="n">a</span><span class="p">[</span><span class="s1">&#39;pval&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;disparity&#39;</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;feature&#39;</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">a</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="n">n_colors</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">x</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/02-feature-engineering_19_0.png" src="_images/02-feature-engineering_19_0.png" />
+</div>
+</div>
+<p>The above bar plot shows influence of each categorical feature on the sale price. Features with higher disparity have greater influence on the sale price.</p>
+</div>
+<div class="section" id="ordinal-features">
+<h3>3.2.2. Ordinal Features<a class="headerlink" href="#ordinal-features" title="Permalink to this headline">¶</a></h3>
+<p>Description of following categorical feature indicate they have ordinal categories</p>
+<ul class="simple">
+<li><p>LandSlope</p></li>
+<li><p>ExterQual</p></li>
+<li><p>ExterCond</p></li>
+<li><p>BsmtQual</p></li>
+<li><p>BsmtCond</p></li>
+<li><p>BsmtExposure</p></li>
+<li><p>BsmtFinType1</p></li>
+<li><p>BsmtFinType2</p></li>
+<li><p>HeatingQC</p></li>
+<li><p>KitchenQual</p></li>
+<li><p>FireplaceQu</p></li>
+<li><p>GarageFinish</p></li>
+<li><p>GarageQual</p></li>
+<li><p>GarageCond</p></li>
+<li><p>PavedDrive</p></li>
+<li><p>PoolQC</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ordinal_map</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;LandSlope&#39;</span><span class="p">:{</span><span class="s1">&#39;Gtl&#39;</span><span class="p">:</span><span class="mf">0.</span><span class="p">,</span><span class="s1">&#39;Mod&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span><span class="s1">&#39;Sev&#39;</span><span class="p">:</span><span class="mf">2.</span><span class="p">},</span>
+               <span class="s1">&#39;ExterQual&#39;</span><span class="p">:{</span><span class="s1">&#39;Ex&#39;</span><span class="p">:</span><span class="mf">4.</span><span class="p">,</span><span class="s1">&#39;Gd&#39;</span><span class="p">:</span><span class="mf">3.</span><span class="p">,</span><span class="s1">&#39;TA&#39;</span><span class="p">:</span><span class="mf">2.</span><span class="p">,</span><span class="s1">&#39;Fa&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span><span class="s1">&#39;Po&#39;</span><span class="p">:</span><span class="mf">0.</span><span class="p">},</span>
+               <span class="s1">&#39;ExterCond&#39;</span><span class="p">:{</span><span class="s1">&#39;Ex&#39;</span><span class="p">:</span><span class="mf">4.</span><span class="p">,</span><span class="s1">&#39;Gd&#39;</span><span class="p">:</span><span class="mf">3.</span><span class="p">,</span><span class="s1">&#39;TA&#39;</span><span class="p">:</span><span class="mf">2.</span><span class="p">,</span><span class="s1">&#39;Fa&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span><span class="s1">&#39;Po&#39;</span><span class="p">:</span><span class="mf">0.</span><span class="p">},</span>
+               <span class="s1">&#39;BsmtQual&#39;</span><span class="p">:{</span><span class="s1">&#39;Ex&#39;</span><span class="p">:</span><span class="mf">5.</span><span class="p">,</span><span class="s1">&#39;Gd&#39;</span><span class="p">:</span><span class="mf">4.</span><span class="p">,</span><span class="s1">&#39;TA&#39;</span><span class="p">:</span><span class="mf">3.</span><span class="p">,</span><span class="s1">&#39;Fa&#39;</span><span class="p">:</span><span class="mf">2.</span><span class="p">,</span><span class="s1">&#39;Po&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span><span class="s1">&#39;Missing&#39;</span><span class="p">:</span><span class="mf">0.</span><span class="p">},</span> <span class="c1"># Houses that don&#39;t have a basement are assigned Typical/Average rating</span>
+               <span class="s1">&#39;BsmtCond&#39;</span><span class="p">:{</span><span class="s1">&#39;Gd&#39;</span><span class="p">:</span><span class="mf">4.</span><span class="p">,</span> <span class="s1">&#39;TA&#39;</span><span class="p">:</span><span class="mf">3.</span><span class="p">,</span> <span class="s1">&#39;Fa&#39;</span><span class="p">:</span><span class="mf">2.</span><span class="p">,</span> <span class="s1">&#39;Po&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span><span class="s1">&#39;Missing&#39;</span><span class="p">:</span><span class="mf">0.</span><span class="p">},</span>
+               <span class="s1">&#39;BsmtExposure&#39;</span><span class="p">:{</span><span class="s1">&#39;Gd&#39;</span><span class="p">:</span><span class="mf">4.</span><span class="p">,</span><span class="s1">&#39;Av&#39;</span><span class="p">:</span><span class="mf">3.</span><span class="p">,</span><span class="s1">&#39;Mn&#39;</span><span class="p">:</span><span class="mf">2.</span><span class="p">,</span><span class="s1">&#39;No&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span><span class="s1">&#39;Missing&#39;</span><span class="p">:</span><span class="mf">0.</span><span class="p">},</span>
+               <span class="s1">&#39;BsmtFinType1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Missing&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span><span class="s1">&#39;Unf&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span><span class="s1">&#39;LwQ&#39;</span><span class="p">:</span><span class="mf">2.</span><span class="p">,</span><span class="s1">&#39;Rec&#39;</span><span class="p">:</span><span class="mf">3.</span><span class="p">,</span><span class="s1">&#39;BLQ&#39;</span><span class="p">:</span><span class="mf">4.</span><span class="p">,</span><span class="s1">&#39;ALQ&#39;</span><span class="p">:</span><span class="mf">5.</span><span class="p">,</span><span class="s1">&#39;GLQ&#39;</span><span class="p">:</span><span class="mf">6.</span><span class="p">},</span>
+               <span class="s1">&#39;BsmtFinType2&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Missing&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span><span class="s1">&#39;Unf&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span><span class="s1">&#39;LwQ&#39;</span><span class="p">:</span><span class="mf">2.</span><span class="p">,</span><span class="s1">&#39;Rec&#39;</span><span class="p">:</span><span class="mf">3.</span><span class="p">,</span><span class="s1">&#39;BLQ&#39;</span><span class="p">:</span><span class="mf">4.</span><span class="p">,</span><span class="s1">&#39;ALQ&#39;</span><span class="p">:</span><span class="mf">5.</span><span class="p">,</span><span class="s1">&#39;GLQ&#39;</span><span class="p">:</span><span class="mf">6.</span><span class="p">},</span>
+               <span class="s1">&#39;HeatingQC&#39;</span><span class="p">:{</span><span class="s1">&#39;Po&#39;</span><span class="p">:</span><span class="mf">0.</span><span class="p">,</span><span class="s1">&#39;Fa&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span><span class="s1">&#39;TA&#39;</span><span class="p">:</span><span class="mf">2.</span><span class="p">,</span><span class="s1">&#39;Gd&#39;</span><span class="p">:</span><span class="mf">3.</span><span class="p">,</span><span class="s1">&#39;Ex&#39;</span><span class="p">:</span><span class="mf">4.</span><span class="p">},</span>
+               <span class="s1">&#39;KitchenQual&#39;</span><span class="p">:{</span><span class="s1">&#39;Ex&#39;</span><span class="p">:</span><span class="mf">5.</span><span class="p">,</span><span class="s1">&#39;Gd&#39;</span><span class="p">:</span><span class="mf">4.</span><span class="p">,</span><span class="s1">&#39;TA&#39;</span><span class="p">:</span><span class="mf">3.</span><span class="p">,</span><span class="s1">&#39;Fa&#39;</span><span class="p">:</span><span class="mf">2.</span><span class="p">,</span><span class="s1">&#39;Po&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span><span class="s1">&#39;Missing&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">},</span>
+               <span class="s1">&#39;FireplaceQu&#39;</span><span class="p">:{</span><span class="s1">&#39;Ex&#39;</span><span class="p">:</span><span class="mf">5.</span><span class="p">,</span><span class="s1">&#39;Gd&#39;</span><span class="p">:</span><span class="mf">4.</span><span class="p">,</span><span class="s1">&#39;TA&#39;</span><span class="p">:</span><span class="mf">3.</span><span class="p">,</span><span class="s1">&#39;Fa&#39;</span><span class="p">:</span><span class="mf">2.</span><span class="p">,</span><span class="s1">&#39;Po&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span><span class="s1">&#39;Missing&#39;</span><span class="p">:</span><span class="mf">0.</span><span class="p">},</span>
+               <span class="s1">&#39;GarageFinish&#39;</span><span class="p">:{</span><span class="s1">&#39;Fin&#39;</span><span class="p">:</span><span class="mf">3.</span><span class="p">,</span> <span class="s1">&#39;RFn&#39;</span><span class="p">:</span><span class="mf">2.</span><span class="p">,</span> <span class="s1">&#39;Unf&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span> <span class="s1">&#39;Missing&#39;</span><span class="p">:</span><span class="mf">0.</span><span class="p">},</span>
+               <span class="s1">&#39;GarageQual&#39;</span><span class="p">:{</span><span class="s1">&#39;Ex&#39;</span><span class="p">:</span><span class="mf">5.</span><span class="p">,</span> <span class="s1">&#39;Gd&#39;</span><span class="p">:</span><span class="mf">4.</span><span class="p">,</span> <span class="s1">&#39;TA&#39;</span><span class="p">:</span><span class="mf">3.</span><span class="p">,</span> <span class="s1">&#39;Fa&#39;</span><span class="p">:</span><span class="mf">2.</span><span class="p">,</span> <span class="s1">&#39;Po&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span> <span class="s1">&#39;Missing&#39;</span><span class="p">:</span><span class="mf">0.</span><span class="p">},</span>
+               <span class="s1">&#39;GarageCond&#39;</span><span class="p">:{</span><span class="s1">&#39;Ex&#39;</span><span class="p">:</span><span class="mf">5.</span><span class="p">,</span> <span class="s1">&#39;Gd&#39;</span><span class="p">:</span><span class="mf">4.</span><span class="p">,</span> <span class="s1">&#39;TA&#39;</span><span class="p">:</span><span class="mf">3.</span><span class="p">,</span> <span class="s1">&#39;Fa&#39;</span><span class="p">:</span><span class="mf">2.</span><span class="p">,</span> <span class="s1">&#39;Po&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span> <span class="s1">&#39;Missing&#39;</span><span class="p">:</span><span class="mf">0.</span><span class="p">},</span>
+               <span class="s1">&#39;PavedDrive&#39;</span><span class="p">:{</span><span class="s1">&#39;Y&#39;</span><span class="p">:</span><span class="mf">2.</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">:</span><span class="mf">0.</span><span class="p">},</span>
+               <span class="s1">&#39;PoolQC&#39;</span><span class="p">:{</span><span class="s1">&#39;Ex&#39;</span><span class="p">:</span><span class="mf">4.</span><span class="p">,</span> <span class="s1">&#39;Gd&#39;</span><span class="p">:</span><span class="mf">3.</span><span class="p">,</span> <span class="s1">&#39;TA&#39;</span><span class="p">:</span><span class="mf">2.</span><span class="p">,</span> <span class="s1">&#39;Fa&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span> <span class="s1">&#39;Missing&#39;</span><span class="p">:</span><span class="mf">0.</span><span class="p">}}</span>
+
+<span class="c1">## Add ordinal features to FEATURES</span>
+<span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;ord_num&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">ordinal_map</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+<span class="n">FEATURES</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;cat&#39;, &#39;num&#39;, &#39;aug_num&#39;, &#39;eng_num&#39;, &#39;ord_num&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">LabelEncode</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">mapper</span><span class="o">=</span><span class="n">ordinal_map</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">X</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">mapper</span><span class="p">)</span>
+
+<span class="n">LabelEncoder</span> <span class="o">=</span> <span class="n">FunctionTransformer</span><span class="p">(</span><span class="n">LabelEncode</span><span class="p">,</span><span class="n">validate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">kw_args</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">mapper</span><span class="o">=</span><span class="n">ordinal_map</span><span class="p">))</span>
+<span class="n">transformers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;LabelEncoder&#39;</span><span class="p">,</span><span class="n">LabelEncoder</span><span class="p">))</span>
+
+<span class="n">housing_cat</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">housing_cat</span><span class="p">)</span>
+<span class="n">housing</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">housing</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing_cat</span><span class="p">[</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;ord_num&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">housing</span><span class="p">[</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;ord_num&#39;</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing</span><span class="p">[</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;ord_num&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Int64Index: 1454 entries, 1 to 1460
+Data columns (total 16 columns):
+LandSlope       1454 non-null float64
+ExterQual       1454 non-null object
+ExterCond       1454 non-null float64
+BsmtQual        1454 non-null float64
+BsmtCond        1454 non-null float64
+BsmtExposure    1454 non-null float64
+BsmtFinType1    1454 non-null float64
+BsmtFinType2    1454 non-null float64
+HeatingQC       1454 non-null float64
+KitchenQual     1454 non-null object
+FireplaceQu     1454 non-null float64
+GarageFinish    1454 non-null float64
+GarageQual      1454 non-null float64
+GarageCond      1454 non-null float64
+PavedDrive      1454 non-null float64
+PoolQC          1454 non-null float64
+dtypes: float64(14), object(2)
+memory usage: 193.1+ KB
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Note: From here train and test sets are processed togather</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="k">import</span> <span class="n">Pipeline</span>
+
+<span class="n">train_raw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/train.csv&#39;</span><span class="p">,</span><span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Id&#39;</span><span class="p">)</span>
+<span class="n">test_raw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/test.csv&#39;</span><span class="p">,</span><span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Id&#39;</span><span class="p">)</span>
+<span class="n">my_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">transformers</span><span class="p">)</span>
+<span class="n">my_pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_raw</span><span class="p">)</span>
+<span class="n">train</span> <span class="o">=</span> <span class="n">my_pipeline</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">train_raw</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Manually and pipeline created datasets are equal:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">housing</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;log1p(SalePrice)&#39;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">train</span><span class="p">))</span>
+
+<span class="n">test</span> <span class="o">=</span> <span class="n">my_pipeline</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_raw</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Manually and pipeline created datasets are equal:
+True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">train_raw</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(1460, 80)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">train</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(1454, 89)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="one-hot-ecoding-one-hot-encode-following-features">
+<h3>3.2.3. One hot ecoding: one hot encode following features<a class="headerlink" href="#one-hot-ecoding-one-hot-encode-following-features" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>MSSubClass</p></li>
+<li><p>MSZoning</p></li>
+<li><p>Street</p></li>
+<li><p>Alley</p></li>
+<li><p>LotShape</p></li>
+<li><p>LandContour</p></li>
+<li><p>Utilities</p></li>
+<li><p>LotConfig</p></li>
+<li><p>Neighborhood</p></li>
+<li><p>Condition1</p></li>
+<li><p>Condition2</p></li>
+<li><p>BldgType</p></li>
+<li><p>HouseStyle</p></li>
+<li><p>RoofStyle</p></li>
+<li><p>RoofMatl</p></li>
+<li><p>Exterior1st</p></li>
+<li><p>Exterior2nd</p></li>
+<li><p>MasVnrType</p></li>
+<li><p>Foundation</p></li>
+<li><p>Heating</p></li>
+<li><p>CentralAir</p></li>
+<li><p>Electrical</p></li>
+<li><p>Functional</p></li>
+<li><p>GarageType</p></li>
+<li><p>Fence</p></li>
+<li><p>MiscFeature</p></li>
+<li><p>SaleType</p></li>
+<li><p>SaleCondition</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Add onehot_cat features to FEATURES</span>
+<span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;onehot_cat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">cat</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;cat&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">cat</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;ord_num&#39;</span><span class="p">]])</span>
+<span class="n">FEATURES</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;cat&#39;, &#39;num&#39;, &#39;aug_num&#39;, &#39;eng_num&#39;, &#39;ord_num&#39;, &#39;onehot_cat&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">train_test_cat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">train</span><span class="p">[</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;onehot_cat&#39;</span><span class="p">]],</span><span class="n">test</span><span class="p">[</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;onehot_cat&#39;</span><span class="p">]]])</span>
+<span class="n">train_test_cat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">train_test_cat</span><span class="p">,</span><span class="n">drop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">train</span><span class="p">,</span><span class="n">train_test_cat</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train</span><span class="o">.</span><span class="n">index</span><span class="p">,:]],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">train</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;onehot_cat&#39;</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">test</span><span class="p">,</span><span class="n">train_test_cat</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="o">.</span><span class="n">index</span><span class="p">,:]],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">test</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;onehot_cat&#39;</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">])</span>
+<span class="n">train</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Training set size:-&#39;</span><span class="p">,</span><span class="n">train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Training set size:- (1454, 240)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test set size:-&#39;</span><span class="p">,</span><span class="n">test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Test set size:- (1459, 240)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="interactions">
+<h2>3.3. Interactions<a class="headerlink" href="#interactions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Check pairwise feature correlations</p></li>
+<li><p>Create interactions of feature pairs with high correlations (&gt; 0.4)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">corr_df</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+<span class="sd">&#39;&#39;&#39; Create a dictionary with feature pairs as keys and their correlations as values&#39;&#39;&#39;</span>
+<span class="n">corr_dict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">corr_df</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="o">==</span> <span class="n">key</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">key</span> <span class="ow">in</span> <span class="n">corr_dict</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">key</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">corr_dict</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">corr_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;Find feature pairs with corr &gt; 0.4&#39;&#39;&#39;</span>
+<span class="n">high_corr_dict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">targetCorr</span> <span class="o">=</span> <span class="mf">0.4</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">corr_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="n">targetCorr</span><span class="p">:</span>
+        <span class="n">high_corr_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total pairs with corr greater than </span><span class="si">%.2f</span><span class="s1">: </span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">targetCorr</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">high_corr_dict</span><span class="p">)))</span>
+
+<span class="sd">&#39;&#39;&#39;Sort corr dict in descending order&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="n">high_corr_dict</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">high_corr_dict</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="c1">#print(high_corr_dict)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Total pairs with corr greater than 0.40: 195
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">num_feats</span> <span class="o">=</span> <span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;num&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;aug_num&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;eng_num&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;ord_num&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">feat1</span><span class="p">,</span> <span class="n">feat2</span> <span class="ow">in</span> <span class="n">high_corr_dict</span><span class="p">:</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">feat1</span> <span class="ow">in</span> <span class="n">num_feats</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">feat2</span> <span class="ow">in</span> <span class="n">num_feats</span><span class="p">):</span>
+        <span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;interactions_num&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">feat1</span><span class="p">,</span><span class="n">feat2</span><span class="p">]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;interactions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">feat1</span><span class="p">,</span><span class="n">feat2</span><span class="p">]))</span>
+    <span class="n">train</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">feat1</span><span class="p">,</span><span class="n">feat2</span><span class="p">])]</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="n">feat1</span><span class="p">]</span> <span class="o">*</span> <span class="n">train</span><span class="p">[</span><span class="n">feat2</span><span class="p">]</span>
+    <span class="n">test</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">feat1</span><span class="p">,</span><span class="n">feat2</span><span class="p">])]</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="n">feat1</span><span class="p">]</span> <span class="o">*</span> <span class="n">test</span><span class="p">[</span><span class="n">feat2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total number of training examples : &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total number of training features : &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total number of test examples : &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total number of test features : &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Total number of training examples : 1454
+Total number of training features : 435
+--------------------------------------------------
+Total number of test examples : 1459
+Total number of test features : 435
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/processed_data.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">((</span><span class="n">train</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">test</span><span class="p">,</span><span class="n">FEATURES</span><span class="p">),</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="01-data-storytelling.html" title="previous page">2. Data Storytelling</a>
+    <a class='right-next' id="next-link" href="03-model-building.html" title="next page">4. Model Building</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Chirag Limbachia<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="_static/js/index.js"></script>
+    
+  </body>
+</html>

@@ -1,0 +1,1327 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>2. Data Storytelling &#8212; Ames, Iowa Housing Dataset</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/sphinx-book-theme.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/togglebutton.js"></script>
+    <script type="text/javascript" src="_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="_static/copybutton.js"></script>
+    <script type="text/javascript" src="_static/mystnb.js"></script>
+    <script type="text/javascript" src="_static/sphinx-book-theme.js"></script>
+    <script type="text/javascript">var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+    <script async="async" type="text/javascript" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script type="text/javascript">
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" type="text/javascript" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Statistical Data Analysis" href="02-feature-engineering.html" />
+    <link rel="prev" title="1. Data Wrangling" href="00-data-wrangling.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  <img src="_static/logo.jpg" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Ames, Iowa Housing Dataset</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   House Price Prediction
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="00-data-wrangling.html">
+   1.
+   <strong>
+    Data Wrangling
+   </strong>
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2. Data Storytelling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-feature-engineering.html">
+   3. Statistical Data Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-model-building.html">
+   4. Model Building
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-model-building.html#table-of-contents">
+   5. Table of Contents
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/01-data-storytelling.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> On this page
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bivariate-analysis">
+   2.1. Bivariate Analysis
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#numerical-data">
+     2.1.1. Numerical Data
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#overall-quality-vs-sale-price">
+       2.1.1.1. Overall quality vs. Sale Price
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#housing-property-size-vs-sale-price">
+       2.1.1.2. Housing property size vs. Sale Price
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#categorical-data">
+     2.1.2. Categorical Data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multivariate-analysis">
+   2.2. Multivariate Analysis
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#is-there-a-relationship-between-neighhood-and-overall-quality">
+     2.2.1.
+     <strong>
+      Is there a relationship between Neighhood and Overall Quality?
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#does-garage-finish-vary-by-neigborhood">
+     2.2.2.
+     <strong>
+      Does garage finish vary by neigborhood?
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-types-of-garage-are-most-prevalent-in-different-neighborhoods">
+     2.2.3.
+     <strong>
+      What types of garage are most prevalent in different neighborhoods?
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#in-what-year-highest-number-of-houses-were-built">
+     2.2.4.
+     <strong>
+      In what year highest number of houses were built?
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#generally-after-how-many-years-is-a-house-remodeled">
+     2.2.5.
+     <strong>
+      Generally after how many years is a house remodeled?
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#in-which-year-most-of-the-houses-were-sold">
+     2.2.6.
+     <strong>
+      In which year most of the houses were sold?
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#is-there-a-particular-time-of-the-year-when-people-choose-to-buy-a-house">
+     2.2.7.
+     <strong>
+      Is there a particular time of the year when people choose to buy a house?
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#do-house-prices-fluctuate-across-the-year">
+     2.2.8.
+     <strong>
+      Do house prices fluctuate across the year?
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#house-zoning-in-different-neighborhoods">
+     2.2.9.
+     <strong>
+      House zoning in different neighborhoods
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#is-the-size-of-the-housing-property-influenced-by-zoning">
+     2.2.10.
+     <strong>
+      Is the size of the housing property influenced by zoning?
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-is-the-most-commom-building-type-and-housing-style-for-houses-in-ames">
+     2.2.11.
+     <strong>
+      What is the most commom building-type and housing-style for houses in Ames?
+     </strong>
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">HTML</span>
+
+<span class="n">HTML</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;&lt;script&gt;</span>
+<span class="s1">code_show=true; </span>
+<span class="s1">function code_toggle() {</span>
+<span class="s1"> if (code_show){</span>
+<span class="s1"> $(&#39;div.input&#39;).hide();</span>
+<span class="s1"> } else {</span>
+<span class="s1"> $(&#39;div.input&#39;).show();</span>
+<span class="s1"> }</span>
+<span class="s1"> code_show = !code_show</span>
+<span class="s1">} </span>
+<span class="s1">$( document ).ready(code_toggle);</span>
+<span class="s1">&lt;/script&gt;</span>
+<span class="s1">&lt;form action=&quot;javascript:code_toggle()&quot;&gt;&lt;input type=&quot;submit&quot; value=&quot;Show Code&quot;&gt;&lt;/form&gt;&#39;&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><script>
+code_show=true; 
+function code_toggle() {
+ if (code_show){
+ $('div.input').hide();
+ } else {
+ $('div.input').show();
+ }
+ code_show = !code_show
+} 
+$( document ).ready(code_toggle);
+</script>
+<form action="javascript:code_toggle()"><input type="submit" value="Show Code"></form></div></div>
+</div>
+<div class="section" id="data-storytelling">
+<h1>2. Data Storytelling<a class="headerlink" href="#data-storytelling" title="Permalink to this headline">¶</a></h1>
+<p>This notebook dives deeper into data and tries to tell a story by means of visualizations.<br />
+Data was cleaned in the previous data-wrangling exercise. Therefore, there are no outliers or missing values in the current data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import useful libraries</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span> <span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span><span class="n">font_scale</span><span class="o">=</span><span class="mf">1.25</span><span class="p">)</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="c1"># Import all functions</span>
+<span class="kn">from</span> <span class="nn">functions</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="c1"># Set waring to &#39;ignore&#39; to prevent them from prining on screen</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/wrangled_data.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">housing_orig</span><span class="p">,</span> <span class="n">FEATURES</span><span class="p">,</span> <span class="n">transformers</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing</span> <span class="o">=</span> <span class="n">housing_orig</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">housing</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSSubClass</th>
+      <th>MSZoning</th>
+      <th>LotFrontage</th>
+      <th>LotArea</th>
+      <th>Street</th>
+      <th>Alley</th>
+      <th>LotShape</th>
+      <th>LandContour</th>
+      <th>Utilities</th>
+      <th>LotConfig</th>
+      <th>...</th>
+      <th>SaleType</th>
+      <th>SaleCondition</th>
+      <th>SalePrice</th>
+      <th>log1p(SalePrice)</th>
+      <th>log1p(GrLivArea)</th>
+      <th>Lat</th>
+      <th>Lng</th>
+      <th>zipcode</th>
+      <th>median_household_income</th>
+      <th>median_home_value</th>
+    </tr>
+    <tr>
+      <th>Id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>60</td>
+      <td>RL</td>
+      <td>65.0</td>
+      <td>8450</td>
+      <td>Pave</td>
+      <td>Missing</td>
+      <td>Reg</td>
+      <td>Lvl</td>
+      <td>AllPub</td>
+      <td>Inside</td>
+      <td>...</td>
+      <td>WD</td>
+      <td>Normal</td>
+      <td>208500</td>
+      <td>12.247699</td>
+      <td>7.444833</td>
+      <td>42.022197</td>
+      <td>-93.651510</td>
+      <td>50010.0</td>
+      <td>48189.0</td>
+      <td>165300.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>20</td>
+      <td>RL</td>
+      <td>80.0</td>
+      <td>9600</td>
+      <td>Pave</td>
+      <td>Missing</td>
+      <td>Reg</td>
+      <td>Lvl</td>
+      <td>AllPub</td>
+      <td>FR2</td>
+      <td>...</td>
+      <td>WD</td>
+      <td>Normal</td>
+      <td>181500</td>
+      <td>12.109016</td>
+      <td>7.141245</td>
+      <td>42.041304</td>
+      <td>-93.650302</td>
+      <td>50011.0</td>
+      <td>48189.0</td>
+      <td>165300.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>60</td>
+      <td>RL</td>
+      <td>68.0</td>
+      <td>11250</td>
+      <td>Pave</td>
+      <td>Missing</td>
+      <td>IR1</td>
+      <td>Lvl</td>
+      <td>AllPub</td>
+      <td>Inside</td>
+      <td>...</td>
+      <td>WD</td>
+      <td>Normal</td>
+      <td>223500</td>
+      <td>12.317171</td>
+      <td>7.488294</td>
+      <td>42.022197</td>
+      <td>-93.651510</td>
+      <td>50010.0</td>
+      <td>48189.0</td>
+      <td>165300.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>70</td>
+      <td>RL</td>
+      <td>60.0</td>
+      <td>9550</td>
+      <td>Pave</td>
+      <td>Missing</td>
+      <td>IR1</td>
+      <td>Lvl</td>
+      <td>AllPub</td>
+      <td>Corner</td>
+      <td>...</td>
+      <td>WD</td>
+      <td>Abnorml</td>
+      <td>140000</td>
+      <td>11.849405</td>
+      <td>7.448916</td>
+      <td>42.018614</td>
+      <td>-93.648898</td>
+      <td>50014.0</td>
+      <td>37661.0</td>
+      <td>212500.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>60</td>
+      <td>RL</td>
+      <td>84.0</td>
+      <td>14260</td>
+      <td>Pave</td>
+      <td>Missing</td>
+      <td>IR1</td>
+      <td>Lvl</td>
+      <td>AllPub</td>
+      <td>FR2</td>
+      <td>...</td>
+      <td>WD</td>
+      <td>Normal</td>
+      <td>250000</td>
+      <td>12.429220</td>
+      <td>7.695758</td>
+      <td>42.047831</td>
+      <td>-93.646745</td>
+      <td>50010.0</td>
+      <td>48189.0</td>
+      <td>165300.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 87 columns</p>
+</div></div></div>
+</div>
+<div class="section" id="bivariate-analysis">
+<h2>2.1. Bivariate Analysis<a class="headerlink" href="#bivariate-analysis" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="numerical-data">
+<h3>2.1.1. Numerical Data<a class="headerlink" href="#numerical-data" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">SalePrice</span>
+<span class="n">housing_num</span> <span class="o">=</span> <span class="n">housing</span><span class="p">[</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;num&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;aug_num&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;xtick.labelsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ytick.labelsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k_cols</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="n">k_cols</span><span class="p">,</span><span class="n">nrows</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.35</span><span class="p">)</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">yticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">housing</span><span class="p">[</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">100000</span><span class="p">)</span>
+<span class="n">yticklabs</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">housing</span><span class="p">[</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">100000</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">feat</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">housing_num</span><span class="o">.</span><span class="n">corrwith</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;spearman&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">feat</span> <span class="ow">in</span> <span class="s1">&#39;OverallQual MSSubClass OverallCond BsmtFullBath </span><span class="se">\</span>
+<span class="s1">                BsmtHalfBath FullBath HalfBath BedroomAbvGr KitchenAbvGr </span><span class="se">\</span>
+<span class="s1">                Fireplaces GarageCars MoSold YrSold TotRmsAbvGrd&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+        
+        <span class="k">if</span> <span class="n">feat</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;discrete&#39;</span><span class="p">]:</span>
+            <span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;discrete&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feat</span><span class="p">)</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">feat</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">housing</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">feat</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;cont&#39;</span><span class="p">]:</span>
+            <span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;cont&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feat</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">housing</span><span class="p">[</span><span class="n">feat</span><span class="p">],</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">ii</span> <span class="o">%</span> <span class="n">k_cols</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Sale Price </span><span class="se">\n</span><span class="s1">(Thousand USD)&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+
+    <span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">ticks</span><span class="o">=</span><span class="n">yticks</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">yticklabs</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">feat</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_9_0.png" src="_images/01-data-storytelling_9_0.png" />
+</div>
+</div>
+<div class="section" id="overall-quality-vs-sale-price">
+<h4>2.1.1.1. Overall quality vs. Sale Price<a class="headerlink" href="#overall-quality-vs-sale-price" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;OverallQual&#39;</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">housing</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">ticks</span><span class="o">=</span><span class="n">yticks</span><span class="p">,</span><span class="n">labels</span><span class="o">=</span><span class="n">yticklabs</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Sale Price</span><span class="se">\n</span><span class="s1">(Thousand USD)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_11_0.png" src="_images/01-data-storytelling_11_0.png" />
+</div>
+</div>
+<p>Observation:</p>
+<ul class="simple">
+<li><p>Better quality houses have a higher price</p></li>
+</ul>
+</div>
+<div class="section" id="housing-property-size-vs-sale-price">
+<h4>2.1.1.2. Housing property size vs. Sale Price<a class="headerlink" href="#housing-property-size-vs-sale-price" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">size</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;GrLivArea&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;GarageArea&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;TotalBsmtSF&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;1stFlrSF&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;LotArea&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;TotRmsAbvGrd&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;FullBath&#39;</span><span class="p">],[</span><span class="s1">&#39;Above ground living area (sq. ft.)&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Garage area (sq. ft.)&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Total basement area (sq. ft.)&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Area of the first floor (sq. ft.)&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Lot Area (sq. ft.)&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Total number of rooms above ground&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Total number of full bathrooms&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k_cols</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="n">k_cols</span><span class="p">,</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.35</span><span class="p">)</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">feat</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">&#39;log1p(GrLivArea)&#39;</span><span class="p">,</span><span class="s1">&#39;GarageArea&#39;</span><span class="p">,</span><span class="s1">&#39;TotalBsmtSF&#39;</span><span class="p">,</span><span class="s1">&#39;1stFlrSF&#39;</span><span class="p">,</span><span class="s1">&#39;LotArea&#39;</span><span class="p">,</span><span class="s1">&#39;TotRmsAbvGrd&#39;</span><span class="p">,</span><span class="s1">&#39;FullBath&#39;</span><span class="p">]):</span>
+    <span class="k">if</span> <span class="n">feat</span> <span class="ow">in</span> <span class="s1">&#39;OverallQual MSSubClass OverallCond BsmtFullBath </span><span class="se">\</span>
+<span class="s1">                BsmtHalfBath FullBath HalfBath BedroomAbvGr KitchenAbvGr </span><span class="se">\</span>
+<span class="s1">                Fireplaces GarageCars MoSold YrSold TotRmsAbvGrd&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+        
+        <span class="k">if</span> <span class="n">feat</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;discrete&#39;</span><span class="p">]:</span>
+            <span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;discrete&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feat</span><span class="p">)</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">feat</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">housing</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">feat</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;cont&#39;</span><span class="p">]:</span>
+            <span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;cont&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feat</span><span class="p">)</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">housing</span><span class="p">[</span><span class="n">feat</span><span class="p">],</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span>
+                    <span class="n">scatter_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">),</span>
+                    <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="n">n_colors</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="c1">#axes[ii].scatter(x=housing[feat],y=y,alpha=0.25,marker=&#39;s&#39;)</span>
+        
+    <span class="k">if</span> <span class="n">ii</span> <span class="o">%</span> <span class="n">k_cols</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Sale Price </span><span class="se">\n</span><span class="s1">(Thousand USD)&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+
+    <span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">ticks</span><span class="o">=</span><span class="n">yticks</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">yticklabs</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">feat</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_15_0.png" src="_images/01-data-storytelling_15_0.png" />
+</div>
+</div>
+<p>Observation:</p>
+<ul class="simple">
+<li><p>Generally, the sale price increases as the size of the housing property increase. Size of the housing property is reflected by variables shown in the plot above.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="categorical-data">
+<h3>2.1.2. Categorical Data<a class="headerlink" href="#categorical-data" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing_cat</span> <span class="o">=</span> <span class="n">housing</span><span class="p">[</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;cat&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k_cols</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="n">k_cols</span><span class="p">,</span><span class="n">nrows</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">80</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">yticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">housing</span><span class="p">[</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">100000</span><span class="p">)</span>
+<span class="n">yticklabs</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">housing</span><span class="p">[</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">100000</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">feat</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;cat&#39;</span><span class="p">]):</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">housing_cat</span><span class="p">[</span><span class="n">feat</span><span class="p">])</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">feat</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">housing_cat</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">y</span><span class="p">),</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">ii</span> <span class="o">%</span> <span class="n">k_cols</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Sale Price </span><span class="se">\n</span><span class="s1">(Thousand USD)&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+
+    <span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">ticks</span><span class="o">=</span><span class="n">yticks</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">yticklabs</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">feat</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">tick</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">():</span>
+        <span class="n">tick</span><span class="o">.</span><span class="n">set_rotation</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_20_0.png" src="_images/01-data-storytelling_20_0.png" />
+</div>
+</div>
+<p>Following are the top 10 categorical features that influence house price the most (listed in descending order of thier influence):</p>
+<ol class="simple">
+<li><p>Neighborhood: Neighborhood has highest influence on house price</p>
+<ul class="simple">
+<li><p>Houses located in <strong>North Ridge</strong> and <strong>North Ridge Heights</strong> have the highest median price</p></li>
+</ul>
+</li>
+<li><p>Quality of the exterior material (ExterQual)</p>
+<ul class="simple">
+<li><p>Houses with <strong>excellent</strong> quality of external material tend to have higher price</p></li>
+</ul>
+</li>
+<li><p>Height of the basement (BsmtQual)</p>
+<ul class="simple">
+<li><p>Houses with basement <strong>heights &gt; 100 inches</strong> tend to have higher price</p></li>
+</ul>
+</li>
+<li><p>Kitchen Quality (KitchenQual)</p>
+<ul class="simple">
+<li><p><strong>Better quality</strong>, higher price</p></li>
+</ul>
+</li>
+<li><p>GarageFinish</p>
+<ul class="simple">
+<li><p>Houses with garage that have <strong>finished interior</strong> have higher price</p></li>
+</ul>
+</li>
+<li><p>GarageType</p>
+<ul class="simple">
+<li><p>Houses with <strong>built-in garage</strong> have higher price</p></li>
+</ul>
+</li>
+<li><p>Foundation</p>
+<ul class="simple">
+<li><p>Houses with foundation made out of <strong>poured concrete</strong></p></li>
+</ul>
+</li>
+<li><p>Type of dwelling involved in the sale (MSSubClass)</p>
+<ul class="simple">
+<li><p><strong>2-STORY dwelling built in and after 1946</strong> have higher price</p></li>
+</ul>
+</li>
+<li><p>Fireplace Quality (FireplaceQu)</p>
+<ul class="simple">
+<li><p>Houses with <strong>excellent</strong> quality fireplace have higher price</p></li>
+</ul>
+</li>
+<li><p>Heating quality and condition (HeatingQC)</p>
+<ul class="simple">
+<li><p>Houses with <strong>excellent</strong> quality heating and condition higher price</p></li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="multivariate-analysis">
+<h2>2.2. Multivariate Analysis<a class="headerlink" href="#multivariate-analysis" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cpal</span><span class="p">(</span><span class="n">n_colors</span><span class="p">):</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="nb">hex</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span><span class="nb">hex</span> <span class="ow">in</span> <span class="n">mpl</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">cnames</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+    <span class="k">return</span> <span class="n">colors</span><span class="p">[:</span><span class="n">n_colors</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># First create new dataframe that is sorted by GrLivArea in descending order, </span>
+<span class="c1"># so that larger data points fall behind the smaller data points in the plot</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;log1p(GrLivArea)&#39;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># To define sizes of the data points create an area area array by scaling down</span>
+<span class="c1"># the GrLivArea (otherwise it will occupy the entire figure)</span>
+<span class="n">area</span> <span class="o">=</span> <span class="mi">20</span><span class="o">*</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;log1p(GrLivArea)&#39;</span><span class="p">]</span>
+<span class="c1"># Define color using the overall quality</span>
+<span class="n">color</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">OverallQual</span>
+
+<span class="c1"># Sale condition as edgecolor</span>
+<span class="n">edgecolors</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">SaleCondition</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s1">&#39;Normal&#39;</span><span class="p">:</span><span class="s1">&#39;green&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;Abnorml&#39;</span><span class="p">:</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;Alloca&#39;</span><span class="p">:</span><span class="s1">&#39;purple&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;Partial&#39;</span><span class="p">:</span><span class="s1">&#39;cyan&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;Family&#39;</span><span class="p">:</span><span class="s1">&#39;palegreen&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;AdjLand&#39;</span><span class="p">:</span><span class="s1">&#39;red&#39;</span><span class="p">})</span>
+
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="s1">&#39;YearBuilt&#39;</span><span class="p">,</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">,</span>
+                       <span class="n">s</span><span class="o">=</span><span class="n">area</span><span class="p">,</span>
+                       <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                       <span class="n">colormap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;Blues&#39;</span><span class="p">),</span>
+                       <span class="n">linewidths</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                       <span class="n">edgecolors</span><span class="o">=</span><span class="n">edgecolors</span><span class="p">,</span>
+                       <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span>
+                       <span class="n">sharex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># to keep x axis from being hidden</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_24_0.png" src="_images/01-data-storytelling_24_0.png" />
+</div>
+</div>
+<p>We are visualizing SalePrice against four variables: YearBuilt (x-axis), OverallQual (colomap), GrLivArea (size of the points), and Sale condition (edgecolors of the points)</p>
+<p>Egdecolors distinguishing  Sale Condition:<br />
+* Normal = green<br />
+* Abnorml = orange<br />
+* Alloca = purple<br />
+* Partial = cyan<br />
+* Family =  palegreen<br />
+* AdjLand = red</p>
+<ul class="simple">
+<li><p>Houses with partial SaleCondition (cyan edgecolors) are all built after 2000.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ecdf</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">feature</span><span class="p">,</span><span class="n">grouping_feature</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">grouping_feature</span><span class="p">:</span>
+        <span class="n">levels</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">grouping_feature</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">level</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">levels</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">grouping_feature</span><span class="p">]</span> <span class="o">==</span> <span class="n">level</span><span class="p">][</span><span class="n">feature</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+            <span class="c1">#y = y = np.arange(1,len(x)+1)/len(x)</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;C</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ii</span><span class="p">),</span><span class="n">label</span><span class="o">=</span><span class="n">level</span><span class="p">)</span>
+            <span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center right&#39;</span><span class="p">,</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.35</span><span class="p">,</span><span class="mf">0.5</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+        <span class="c1">#y = y = np.arange(1,len(x)+1)/len(x)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">)</span>
+    
+    <span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;ECDF&#39;</span><span class="p">)</span>
+    <span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="mf">0.02</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ecdf</span><span class="p">(</span><span class="n">housing</span><span class="p">,</span><span class="s1">&#39;log1p(GrLivArea)&#39;</span><span class="p">,</span><span class="s1">&#39;GarageFinish&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_27_0.png" src="_images/01-data-storytelling_27_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ecdf</span><span class="p">(</span><span class="n">housing</span><span class="p">,</span><span class="s1">&#39;log1p(GrLivArea)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_28_0.png" src="_images/01-data-storytelling_28_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;xtick.labelsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ytick.labelsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">12</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cmap</span><span class="p">(</span><span class="n">n_cols</span><span class="p">):</span>
+    <span class="n">cmap</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;RdBu&quot;</span><span class="p">,</span> <span class="n">n_colors</span><span class="o">=</span><span class="n">n_cols</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">cmap</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="is-there-a-relationship-between-neighhood-and-overall-quality">
+<h3>2.2.1. <strong>Is there a relationship between Neighhood and Overall Quality?</strong><a class="headerlink" href="#is-there-a-relationship-between-neighhood-and-overall-quality" title="Permalink to this headline">¶</a></h3>
+<p>Neighborhood and Overall quality had the highest influence of the sale price.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">order</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Neighborhood&#39;</span><span class="p">)[</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span><span class="o">.</span><span class="n">index</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Neighborhood&#39;</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">housing</span><span class="p">,</span>
+            <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
+            <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">ticks</span><span class="o">=</span><span class="n">yticks</span><span class="p">,</span><span class="n">labels</span><span class="o">=</span><span class="n">yticklabs</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">stripplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Neighborhood&#39;</span><span class="p">,</span>
+              <span class="n">y</span><span class="o">=</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">,</span>
+              <span class="n">data</span><span class="o">=</span><span class="n">housing</span><span class="p">,</span>
+              <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
+              <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+              <span class="n">size</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+              <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;OverallQual&#39;</span><span class="p">,</span>
+              <span class="n">palette</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+              <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.1</span><span class="p">,</span><span class="o">.</span><span class="mi">85</span><span class="p">),</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;OverallQual&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;cheap &lt;&quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="o">+</span><span class="s2">&quot; Neighborhood &quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="o">+</span><span class="s2">&quot;&gt; expensive&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_32_0.png" src="_images/01-data-storytelling_32_0.png" />
+</div>
+</div>
+<p>Observation:</p>
+<ul class="simple">
+<li><p>The barplot shows average house price per neighborhood. Bars are ordered in ascending order of the average house prices.</p></li>
+<li><p>We can broadly term neighborhoods to the right as “expensive” and those to left as “cheap.”</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Neighborhood&#39;</span><span class="p">,</span><span class="s1">&#39;OverallQual&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s1">&#39;OverallQual&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">order</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                                                           <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+                                                                                           <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of Houses&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.1</span><span class="p">,</span><span class="o">.</span><span class="mi">85</span><span class="p">),</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;OverallQual&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;cheap &lt;&quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="o">+</span><span class="s2">&quot; Neighborhood &quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="o">+</span><span class="s2">&quot;&gt; expensive&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_34_0.png" src="_images/01-data-storytelling_34_0.png" />
+</div>
+</div>
+<p>Observation:</p>
+<ul class="simple">
+<li><p>Highest concentration of better overall quality houses is found in <strong>Northridge heights</strong> (one of the expensive neighborhoods).</p></li>
+</ul>
+</div>
+<div class="section" id="does-garage-finish-vary-by-neigborhood">
+<h3>2.2.2. <strong>Does garage finish vary by neigborhood?</strong><a class="headerlink" href="#does-garage-finish-vary-by-neigborhood" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Neighborhood&#39;</span><span class="p">,</span><span class="s1">&#39;GarageFinish&#39;</span><span class="p">])[</span><span class="s1">&#39;GarageFinish&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s1">&#39;GarageFinish&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">order</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                                                                                                                  <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="n">n_colors</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+                                                                                                                                                  <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of houses&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;cheap &lt;&quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="o">+</span><span class="s2">&quot; Neighborhood &quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="o">+</span><span class="s2">&quot;&gt; expensive&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_37_0.png" src="_images/01-data-storytelling_37_0.png" />
+</div>
+</div>
+<p>Observation:</p>
+<ul class="simple">
+<li><p>Almost all houses in expensive neighborhoods like <strong>Northridge</strong> and <strong>Northridge Heights</strong> either have a <strong>finished</strong> or a <strong>roughly finished</strong> garage.</p></li>
+<li><p>Houses with no or <strong>un-finished</strong> garage are very common in neighborhoods like <strong>North Ames</strong>, <strong>Old Town</strong>.</p></li>
+</ul>
+</div>
+<div class="section" id="what-types-of-garage-are-most-prevalent-in-different-neighborhoods">
+<h3>2.2.3. <strong>What types of garage are most prevalent in different neighborhoods?</strong><a class="headerlink" href="#what-types-of-garage-are-most-prevalent-in-different-neighborhoods" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Neighborhood&#39;</span><span class="p">,</span><span class="s1">&#39;GarageType&#39;</span><span class="p">])[</span><span class="s1">&#39;GarageType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s1">&#39;GarageType&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">order</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                                                                                                                  <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="n">n_colors</span><span class="o">=</span><span class="mi">7</span><span class="p">),</span>
+                                                                                                                                                  <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of houses&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;cheap &lt;&quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="o">+</span><span class="s2">&quot; Neighborhood &quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="o">+</span><span class="s2">&quot;&gt; expensive&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_40_0.png" src="_images/01-data-storytelling_40_0.png" />
+</div>
+</div>
+<p>Obsevation:</p>
+<ul class="simple">
+<li><p>Generally houses with <strong>attached</strong> garage are most prevalent across neighborhoods.</p></li>
+<li><p>Besides attached garage, houses with <strong>built-in</strong> garage are most prevalent in moderately expensive (<strong>Gilbert</strong>, <strong>College Creek</strong>) and expensive neighborhoods (<strong>Northridge Heights</strong>, <strong>Northrigde</strong> and <strong>Stone Brook</strong>)</p></li>
+<li><p>Houses in cheaper neighborhoods mostly have detached garage, followed by detached garage or no garage at all.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">palette</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="in-what-year-highest-number-of-houses-were-built">
+<h3>2.2.4. <strong>In what year highest number of houses were built?</strong><a class="headerlink" href="#in-what-year-highest-number-of-houses-were-built" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">YearBuilt</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">xmin</span><span class="o">=</span><span class="mi">1914</span><span class="p">,</span><span class="n">xmax</span><span class="o">=</span><span class="mi">1918</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">palette</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;WWI&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">xmin</span><span class="o">=</span><span class="mi">1929</span><span class="p">,</span><span class="n">xmax</span><span class="o">=</span><span class="mi">1933</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">palette</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span><span class="s1">&#39;Great Depression&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">xmin</span><span class="o">=</span><span class="mi">1939</span><span class="p">,</span><span class="n">xmax</span><span class="o">=</span><span class="mi">1945</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">palette</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span><span class="s1">&#39;WWII&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">xmin</span><span class="o">=</span><span class="mi">1947</span><span class="p">,</span><span class="n">xmax</span><span class="o">=</span><span class="mi">1991</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">palette</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Cold War&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">2008</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;2008 economic recession&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">palette</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1875</span><span class="p">,</span><span class="mi">2011</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="n">rotation</span> <span class="o">=</span> <span class="mi">90</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_44_0.png" src="_images/01-data-storytelling_44_0.png" />
+</div>
+</div>
+<p>Comments/Observation:</p>
+<p>Certain years have been shaded to highlight important historic events that took place during those times; it’s just meant to give a histrical context.</p>
+<ul class="simple">
+<li><p>After 1990 (which is also the time when Cold War ended and United States’ economy boomed), we observe an increase in the number of houses being built in Ames, IA.</p></li>
+<li><p>However in 2006, the number peaked and started falling steeply.</p></li>
+</ul>
+</div>
+<div class="section" id="generally-after-how-many-years-is-a-house-remodeled">
+<h3>2.2.5. <strong>Generally after how many years is a house remodeled?</strong><a class="headerlink" href="#generally-after-how-many-years-is-a-house-remodeled" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">remod_after</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">YearRemodAdd</span> <span class="o">-</span> <span class="n">housing</span><span class="o">.</span><span class="n">YearBuilt</span>
+<span class="n">remod_after</span> <span class="o">=</span> <span class="n">remod_after</span><span class="p">[</span><span class="n">remod_after</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">remod_after</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="mi">35</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Age of the house when remodeled (in years)&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of houses&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_47_0.png" src="_images/01-data-storytelling_47_0.png" />
+</div>
+</div>
+<p>Comments/Observation:</p>
+<ul class="simple">
+<li><p>Most houses are remodeled within the first couple of years after they are built.</p></li>
+</ul>
+</div>
+<div class="section" id="in-which-year-most-of-the-houses-were-sold">
+<h3>2.2.6. <strong>In which year most of the houses were sold?</strong><a class="headerlink" href="#in-which-year-most-of-the-houses-were-sold" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">YrSold</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of houses sold&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_50_0.png" src="_images/01-data-storytelling_50_0.png" />
+</div>
+</div>
+<p>Comments/Observation:</p>
+<ul class="simple">
+<li><p>All houses were sold between 2006 and 2010 (highest in 2009).</p></li>
+<li><p>Recall this is also the time when number of houses built declined.</p></li>
+</ul>
+</div>
+<div class="section" id="is-there-a-particular-time-of-the-year-when-people-choose-to-buy-a-house">
+<h3>2.2.7. <strong>Is there a particular time of the year when people choose to buy a house?</strong><a class="headerlink" href="#is-there-a-particular-time-of-the-year-when-people-choose-to-buy-a-house" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">MoSold</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Most houses sold during summer,</span><span class="se">\n</span><span class="s1">particularly in the month of June&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">ticks</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xticks</span><span class="p">(),</span><span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Jan&#39;</span><span class="p">,</span><span class="s1">&#39;Feb&#39;</span><span class="p">,</span><span class="s1">&#39;Mar&#39;</span><span class="p">,</span><span class="s1">&#39;Apr&#39;</span><span class="p">,</span><span class="s1">&#39;May&#39;</span><span class="p">,</span><span class="s1">&#39;June&#39;</span><span class="p">,</span><span class="s1">&#39;July&#39;</span><span class="p">,</span><span class="s1">&#39;Aug&#39;</span><span class="p">,</span><span class="s1">&#39;Sept&#39;</span><span class="p">,</span><span class="s1">&#39;Oct&#39;</span><span class="p">,</span><span class="s1">&#39;Nov&#39;</span><span class="p">,</span><span class="s1">&#39;Dec&#39;</span><span class="p">])</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of houses sold&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_53_0.png" src="_images/01-data-storytelling_53_0.png" />
+</div>
+</div>
+<p>Comments/Observation:</p>
+<ul class="simple">
+<li><p>Most houses are bougth during the summer, highest being in the month of June.</p></li>
+</ul>
+</div>
+<div class="section" id="do-house-prices-fluctuate-across-the-year">
+<h3>2.2.8. <strong>Do house prices fluctuate across the year?</strong><a class="headerlink" href="#do-house-prices-fluctuate-across-the-year" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;MoSold&#39;</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">housing</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">palette</span><span class="p">[</span><span class="mi">0</span><span class="p">],)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">13</span><span class="p">),</span><span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Jan&#39;</span><span class="p">,</span><span class="s1">&#39;Feb&#39;</span><span class="p">,</span><span class="s1">&#39;Mar&#39;</span><span class="p">,</span><span class="s1">&#39;Apr&#39;</span><span class="p">,</span><span class="s1">&#39;May&#39;</span><span class="p">,</span><span class="s1">&#39;June&#39;</span><span class="p">,</span><span class="s1">&#39;July&#39;</span><span class="p">,</span><span class="s1">&#39;Aug&#39;</span><span class="p">,</span><span class="s1">&#39;Sept&#39;</span><span class="p">,</span><span class="s1">&#39;Oct&#39;</span><span class="p">,</span><span class="s1">&#39;Nov&#39;</span><span class="p">,</span><span class="s1">&#39;Dec&#39;</span><span class="p">])</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_56_0.png" src="_images/01-data-storytelling_56_0.png" />
+</div>
+</div>
+<p>Comments/Observation:</p>
+<ul class="simple">
+<li><p>House prices fall by a few thousand dollars (~$10,000 dollars) by the end of winter (in Apr) and start rising back up by May. This explains why most houses are bought during summer.</p></li>
+</ul>
+</div>
+<div class="section" id="house-zoning-in-different-neighborhoods">
+<h3>2.2.9. <strong>House zoning in different neighborhoods</strong><a class="headerlink" href="#house-zoning-in-different-neighborhoods" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Neighborhood&#39;</span><span class="p">,</span><span class="s1">&#39;MSZoning&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s1">&#39;MSZoning&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">order</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                                                           <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;Set1&quot;</span><span class="p">,</span> <span class="n">n_colors</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">desat</span><span class="o">=.</span><span class="mi">5</span><span class="p">),</span>
+                                                                                           <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of houses&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;cheap &lt;&quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="o">+</span><span class="s2">&quot; Neighborhood &quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="o">+</span><span class="s2">&quot;&gt; expensive&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">([</span><span class="o">.</span><span class="mi">965</span><span class="p">,</span><span class="mf">0.125</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.75</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;MSZoning&#39;</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">housing</span><span class="p">,</span>
+            <span class="n">palette</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;Set1&quot;</span><span class="p">,</span> <span class="n">n_colors</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">desat</span><span class="o">=.</span><span class="mi">5</span><span class="p">),</span>
+            <span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;C (all)&#39;</span><span class="p">,</span><span class="s1">&#39;FV&#39;</span><span class="p">,</span><span class="s1">&#39;RH&#39;</span><span class="p">,</span><span class="s1">&#39;RL&#39;</span><span class="p">,</span><span class="s1">&#39;RM&#39;</span><span class="p">])</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">ticks</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">250000</span><span class="p">,</span><span class="mi">50000</span><span class="p">),</span>
+           <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">250000</span><span class="p">,</span><span class="mi">50000</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">])</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Sale Price (in $1000)&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Mean Sale Price&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_59_0.png" src="_images/01-data-storytelling_59_0.png" />
+</div>
+</div>
+<p>Comments/Observation:</p>
+<ul class="simple">
+<li><p>Most houses are located in a <strong>low density residential (RL)</strong> zone across majority neighbohoods.</p></li>
+<li><p>In <strong>Somerst</strong>, most houses are located in the <strong>floating village (FV)</strong> residential zone. Note: houses in this zone also have the highest average price.</p></li>
+<li><p>Only in <strong>Iowa DOT and Rail Road (IDOTRR)</strong> neighborhood do we find houses located in <strong>commerial (C all)</strong> zones. Note: houses in this zone have the lowest average price.</p></li>
+<li><p>Houses located in <strong>floating village residential (FV)</strong> zone are most expensive, whereas those locate in the <strong>commercial</strong> zones are cheapest.</p></li>
+</ul>
+</div>
+<div class="section" id="is-the-size-of-the-housing-property-influenced-by-zoning">
+<h3>2.2.10. <strong>Is the size of the housing property influenced by zoning?</strong><a class="headerlink" href="#is-the-size-of-the-housing-property-influenced-by-zoning" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.40</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;MSZoning&#39;</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;LotArea&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">housing</span><span class="p">,</span>
+            <span class="n">palette</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;Set1&quot;</span><span class="p">,</span> <span class="n">n_colors</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">desat</span><span class="o">=.</span><span class="mi">5</span><span class="p">),</span>
+            <span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;C (all)&#39;</span><span class="p">,</span><span class="s1">&#39;FV&#39;</span><span class="p">,</span><span class="s1">&#39;RH&#39;</span><span class="p">,</span><span class="s1">&#39;RL&#39;</span><span class="p">,</span><span class="s1">&#39;RM&#39;</span><span class="p">])</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Mean Lot Area&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;MSZoning&#39;</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;log1p(GrLivArea)&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">housing</span><span class="p">,</span>
+            <span class="n">palette</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;Set1&quot;</span><span class="p">,</span> <span class="n">n_colors</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">desat</span><span class="o">=.</span><span class="mi">5</span><span class="p">),</span>
+            <span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;C (all)&#39;</span><span class="p">,</span><span class="s1">&#39;FV&#39;</span><span class="p">,</span><span class="s1">&#39;RH&#39;</span><span class="p">,</span><span class="s1">&#39;RL&#39;</span><span class="p">,</span><span class="s1">&#39;RM&#39;</span><span class="p">])</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Mean Grade Living Area&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;MSZoning&#39;</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;GarageArea&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">housing</span><span class="p">,</span>
+            <span class="n">palette</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;Set1&quot;</span><span class="p">,</span> <span class="n">n_colors</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">desat</span><span class="o">=.</span><span class="mi">5</span><span class="p">),</span>
+            <span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;C (all)&#39;</span><span class="p">,</span><span class="s1">&#39;FV&#39;</span><span class="p">,</span><span class="s1">&#39;RH&#39;</span><span class="p">,</span><span class="s1">&#39;RL&#39;</span><span class="p">,</span><span class="s1">&#39;RM&#39;</span><span class="p">])</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Mean Garage Area&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_62_0.png" src="_images/01-data-storytelling_62_0.png" />
+</div>
+</div>
+<p>Comments/Observation:</p>
+<ul class="simple">
+<li><p>Houses in <strong>low density residential (RL)</strong> zones have the largest average <strong>Lot Area</strong>.</p></li>
+<li><p>Houses in <strong>floating village residential (FV)</strong> zone have the largest average <strong>Garage Area</strong>.</p></li>
+</ul>
+</div>
+<div class="section" id="what-is-the-most-commom-building-type-and-housing-style-for-houses-in-ames">
+<h3>2.2.11. <strong>What is the most commom building-type and housing-style for houses in Ames?</strong><a class="headerlink" href="#what-is-the-most-commom-building-type-and-housing-style-for-houses-in-ames" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;BldgType&#39;</span><span class="p">,</span><span class="s1">&#39;Neighborhood&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s1">&#39;BldgType&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">order</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                                                           <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;Set1&quot;</span><span class="p">,</span> <span class="n">n_colors</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">desat</span><span class="o">=.</span><span class="mi">5</span><span class="p">),</span>
+                                                                                           <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;cheap &lt;&quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="o">+</span><span class="s2">&quot; Neighborhood &quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="o">+</span><span class="s2">&quot;&gt; expensive&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_65_0.png" src="_images/01-data-storytelling_65_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;HouseStyle&#39;</span><span class="p">,</span><span class="s1">&#39;Neighborhood&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s1">&#39;HouseStyle&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">order</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                                                           <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;Set1&quot;</span><span class="p">,</span> <span class="n">n_colors</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">desat</span><span class="o">=.</span><span class="mi">5</span><span class="p">),</span>
+                                                                                           <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">_</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;cheap &lt;&quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="o">+</span><span class="s2">&quot; Neighborhood &quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="o">+</span><span class="s2">&quot;&gt; expensive&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01-data-storytelling_66_0.png" src="_images/01-data-storytelling_66_0.png" />
+</div>
+</div>
+<p>Comments/Observation:</p>
+<ul class="simple">
+<li><p>Single family detached (<strong>1Fam</strong>) buiding type and 1 Story houses (<strong>1Story</strong>) house style are most common.</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="00-data-wrangling.html" title="previous page">1. <strong>Data Wrangling</strong></a>
+    <a class='right-next' id="next-link" href="02-feature-engineering.html" title="next page">3. Statistical Data Analysis</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Chirag Limbachia<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="_static/js/index.js"></script>
+    
+  </body>
+</html>
