@@ -2,9 +2,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>4. Model Building &#8212; Ames, Iowa Housing Dataset</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
@@ -15,27 +16,27 @@
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/sphinx-book-theme.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script type="text/javascript" src="_static/togglebutton.js"></script>
-    <script type="text/javascript" src="_static/clipboard.min.js"></script>
-    <script type="text/javascript" src="_static/copybutton.js"></script>
-    <script type="text/javascript" src="_static/mystnb.js"></script>
-    <script type="text/javascript" src="_static/sphinx-book-theme.js"></script>
-    <script type="text/javascript">var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
-    <script async="async" type="text/javascript" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
-    <script type="text/javascript">
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/mystnb.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
         const thebe_selector = ".thebe"
         const thebe_selector_input = "pre"
         const thebe_selector_output = ".output"
     </script>
-    <script async="async" type="text/javascript" src="_static/sphinx-thebe.js"></script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="3. Statistical Data Analysis" href="02-feature-engineering.html" />
@@ -81,10 +82,7 @@
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="00-data-wrangling.html">
-   1.
-   <strong>
-    Data Wrangling
-   </strong>
+   1. Data Wrangling
   </a>
  </li>
  <li class="toctree-l1">
@@ -174,22 +172,22 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#data-splitting">
-   4.1. 1. Data Splitting
+   4.1. Data Splitting
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#feature-standardization">
-   4.2. 2. Feature Standardization
+   4.2. Feature Standardization
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#models">
-   4.3. 3. Models
+   4.3. Models
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#linear-regression">
-     4.3.1. 3.1. Linear Regression
+     4.3.1. Linear Regression
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -219,12 +217,12 @@
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#adaptive-boost">
-     4.3.7. 3.7. Adaptive Boost
+     4.3.7. Adaptive Boost
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#gradient-boost">
-     4.3.8. 3.8. Gradient Boost
+     4.3.8. Gradient Boost
     </a>
    </li>
   </ul>
@@ -246,7 +244,7 @@
                 
   <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">HTML</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
 
 <span class="n">HTML</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;&lt;script&gt;</span>
 <span class="s1">code_show=true; </span>
@@ -280,23 +278,23 @@ $( document ).ready(code_toggle);
 <form action="javascript:code_toggle()"><input type="submit" value="Show Code"></form></div></div>
 </div>
 <div class="section" id="model-building">
-<h1>4. Model Building<a class="headerlink" href="#model-building" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">4. </span>Model Building<a class="headerlink" href="#model-building" title="Permalink to this headline">¶</a></h1>
 <p>At this point data consists of no apparent outlier and missing values. Qualitative features have been encoded appropriately. All features are in numerical format. Dataset is ready to train machine learning models.</p>
 <p>In this notebook I train multiple machine learning models, fine-tune them and evaluate their performance using cross-validation. Root-Mean-Squared-Error (RMSE) between the logarithm of predicted and observed sale price is used as the evaluation metric for each validation set. Using logarithm of the sale price as the target variables ensures that the errors in predicting expensive and cheap houses will affect the results equally.</p>
 <p><strong>Table of Contents</strong></p>
 <ol class="simple">
-<li><p><a class="reference external" href="#1.-Data-Splitting">Data Splitting</a></p></li>
+<li><p><a class="reference external" href="#Data-Splitting">Data Splitting</a></p></li>
 <li><p><a class="reference external" href="#Feature-Standardization">Feature Standardization</a></p></li>
-<li><p><a class="reference external" href="#3.-Models">Models</a><br />
-3.1. <a class="reference external" href="#3.1.-Linear-Regression">Linear Regression</a><br />
-3.2. <a class="reference external" href="#3.2.-Ridge-Regression">Ridge Regression</a><br />
-3.3. <a class="reference external" href="#3.3.-Lasso-Regression">Lasso Regression</a><br />
-3.4. <a class="reference external" href="#3.4.-Elastic-Net-Regression">Elastic Net Regression</a><br />
-3.5. <a class="reference external" href="#3.5.-Support-Vector-Machine-Regression">Support Vector Machine Regression</a><br />
-3.6. <a class="reference external" href="#3.6.-Random-Forest">Random Forest</a><br />
-3.7. <a class="reference external" href="#3.7.-Adaptive-Boost">Adaptive Boost</a><br />
-3.8. <a class="reference external" href="#3.8.-Gradient-Boost">Gradient Boost</a></p></li>
-<li><p><a class="reference external" href="#4.-Model-Performance">Model Performance</a></p></li>
+<li><p><a class="reference external" href="#Models">Models</a><br />
+3.1. <a class="reference external" href="#Linear-Regression">Linear Regression</a><br />
+3.2. <a class="reference external" href="#Ridge-Regression">Ridge Regression</a><br />
+3.3. <a class="reference external" href="#Lasso-Regression">Lasso Regression</a><br />
+3.4. <a class="reference external" href="#Elastic-Net-Regression">Elastic Net Regression</a><br />
+3.5. <a class="reference external" href="#Support-Vector-Machine-Regression">Support Vector Machine Regression</a><br />
+3.6. <a class="reference external" href="#Random-Forest">Random Forest</a><br />
+3.7. <a class="reference external" href="#Adaptive-Boost">Adaptive Boost</a><br />
+3.8. <a class="reference external" href="#Gradient-Boost">Gradient Boost</a></p></li>
+<li><p><a class="reference external" href="#Model-Performance">Model Performance</a></p></li>
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -307,7 +305,7 @@ $( document ).ready(code_toggle);
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="c1"># Import collection library</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 
 <span class="c1"># Import visualization libraries</span>
 <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
@@ -336,11 +334,11 @@ $( document ).ready(code_toggle);
 </div>
 </div>
 <div class="section" id="data-splitting">
-<h2>4.1. 1. Data Splitting<a class="headerlink" href="#data-splitting" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">4.1. </span>Data Splitting<a class="headerlink" href="#data-splitting" title="Permalink to this headline">¶</a></h2>
 <p>Data is split in 70% training and 30% test sets</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 
 <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 
@@ -352,8 +350,8 @@ $( document ).ready(code_toggle);
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>X_train : (1017, 435)
-X_test : (437, 435)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>X_train : (1017, 466)
+X_test : (437, 466)
 y_train : (1017,)
 y_test : (437,)
 </pre></div>
@@ -362,7 +360,7 @@ y_test : (437,)
 </div>
 </div>
 <div class="section" id="feature-standardization">
-<h2>4.2. 2. Feature Standardization<a class="headerlink" href="#feature-standardization" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">4.2. </span>Feature Standardization<a class="headerlink" href="#feature-standardization" title="Permalink to this headline">¶</a></h2>
 <p>Standardize all features except those that are one hot encoded.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -384,14 +382,14 @@ y_test : (437,)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Total 215 features to normalize
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Total 246 features to normalize
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">StandardScaler</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
 
 <span class="n">ss</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
 <span class="n">ss</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">feat_to_norm</span><span class="p">])</span>
@@ -410,8 +408,8 @@ y_test : (437,)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>X_train_preproc : (1017, 435)
-X_test_preproc : (437, 435)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>X_train_preproc : (1017, 466)
+X_test_preproc : (437, 466)
 </pre></div>
 </div>
 </div>
@@ -420,7 +418,7 @@ X_test_preproc : (437, 435)
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;Initialize a named tuple that will store cross-validation mean and std of the model performance metric (RSME)&#39;&#39;&#39;</span>
 
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
 
 <span class="n">models</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;models&#39;</span><span class="p">,[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;params&#39;</span><span class="p">,</span>
                               <span class="s1">&#39;cv5_mean_train_rmse&#39;</span><span class="p">,</span><span class="s1">&#39;cv5_std_train_rmse&#39;</span><span class="p">,</span>
@@ -432,19 +430,19 @@ X_test_preproc : (437, 435)
 </div>
 </div>
 <div class="section" id="models">
-<h2>4.3. 3. Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">4.3. </span>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="linear-regression">
-<h3>4.3.1. 3.1. Linear Regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">4.3.1. </span>Linear Regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import linear regression model</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
 
 <span class="c1"># Import mean_squared_error and r2_score libraries</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">r2_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">r2_score</span>
 
 <span class="c1"># import cross validation score library</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">cross_val_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
 </pre></div>
 </div>
 </div>
@@ -473,8 +471,8 @@ X_test_preproc : (437, 435)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Train R-sq: 0.9631156597425699
-Test R-sq: 0.515129293903182
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Train R-sq: 0.9648529652760376
+Test R-sq: 0.4414456763442427
 </pre></div>
 </div>
 </div>
@@ -504,7 +502,7 @@ Test R-sq: 0.515129293903182
 </div>
 <div class="cell_output docutils container">
 <img alt="_images/03-model-building_16_0.png" src="_images/03-model-building_16_0.png" />
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f4d576bba20&gt;]
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fe6edec4400&gt;]
 </pre></div>
 </div>
 <img alt="_images/03-model-building_16_2.png" src="_images/03-model-building_16_2.png" />
@@ -528,19 +526,19 @@ Test R-sq: 0.515129293903182
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.41971064 0.21252621 3.30357339 4.92106573 0.19876013]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.20598253 0.20961447 0.70670994 7.79822149 0.26921657]
 ---------------------------------------------------------------------------
-cv5 test rmse: [ 2.32542667  1.19791181  1.19506895 10.39861641  3.78362033]
+cv5 test rmse: [0.76827203 1.138192   0.81778919 1.28980219 0.75990774]
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="ridge-regression">
-<h3>4.3.2. 3.2. Ridge Regression<a class="headerlink" href="#ridge-regression" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">4.3.2. </span>3.2. Ridge Regression<a class="headerlink" href="#ridge-regression" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">RidgeCV</span><span class="p">,</span> <span class="n">Ridge</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">RidgeCV</span><span class="p">,</span> <span class="n">Ridge</span>
 
 <span class="n">ridge</span> <span class="o">=</span> <span class="n">RidgeCV</span><span class="p">(</span><span class="n">alphas</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">])</span>
 <span class="n">ridge</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
@@ -579,13 +577,13 @@ cv5 test rmse: [ 2.32542667  1.19791181  1.19506895 10.39861641  3.78362033]
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Test accuracies:
 --------------------------------------------------
-R-sq: 0.909270651446203
-MSE: 0.013664423403654887
-RMSE: 0.11689492462744004
+R-sq: 0.909347559888787
+MSE: 0.013652840497577244
+RMSE: 0.11684537003055467
 --------------------------------------------------
-R-sq orig price: 0.9090761857472622
-MSE orig price: 484107184.7266703
-RMSE orig price: 22002.43588166252
+R-sq orig price: 0.9101261340596172
+MSE orig price: 478516927.3691223
+RMSE orig price: 21875.029768416825
 </pre></div>
 </div>
 </div>
@@ -629,7 +627,7 @@ RMSE orig price: 22002.43588166252
 <div class="cell_output docutils container">
 <img alt="_images/03-model-building_21_0.png" src="_images/03-model-building_21_0.png" />
 <img alt="_images/03-model-building_21_1.png" src="_images/03-model-building_21_1.png" />
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Ridge picked 423 features and eliminated the other 12 features
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Ridge picked 454 features and eliminated the other 12 features
 </pre></div>
 </div>
 <img alt="_images/03-model-building_21_3.png" src="_images/03-model-building_21_3.png" />
@@ -653,19 +651,19 @@ RMSE orig price: 22002.43588166252
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.13790782 0.15159392 0.11565158 0.12244587 0.10311969]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.13729775 0.15145262 0.11535025 0.12181316 0.10309681]
 ---------------------------------------------------------------------------
-cv5 test rmse: [0.1207721  0.12713865 0.14676774 0.10633602 0.10209551]
+cv5 test rmse: [0.12090563 0.12652353 0.14737171 0.10683139 0.10270972]
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="lasso-regression">
-<h3>4.3.3. 3.3. Lasso Regression<a class="headerlink" href="#lasso-regression" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">4.3.3. </span>3.3. Lasso Regression<a class="headerlink" href="#lasso-regression" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">LassoCV</span><span class="p">,</span> <span class="n">Lasso</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LassoCV</span><span class="p">,</span> <span class="n">Lasso</span>
 </pre></div>
 </div>
 </div>
@@ -706,13 +704,13 @@ cv5 test rmse: [0.1207721  0.12713865 0.14676774 0.10633602 0.10209551]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>R-sq: 0.9010144903101696
-MSE: 0.01490785436893585
-RMSE: 0.1220977246673166
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>R-sq: 0.900911643068392
+MSE: 0.014923343824993315
+RMSE: 0.12216113876758564
 --------------------------------------------------
-R-sq orig price: 0.8961766162884645
-MSE orig price: 552788578.1130755
-RMSE orig price: 23511.456316295582
+R-sq orig price: 0.8969800704761717
+MSE orig price: 548510733.5454615
+RMSE orig price: 23420.30600879206
 </pre></div>
 </div>
 </div>
@@ -756,7 +754,7 @@ RMSE orig price: 23511.456316295582
 <div class="cell_output docutils container">
 <img alt="_images/03-model-building_27_0.png" src="_images/03-model-building_27_0.png" />
 <img alt="_images/03-model-building_27_1.png" src="_images/03-model-building_27_1.png" />
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Lasso picked 164 features and eliminated the other 271 features
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Lasso picked 174 features and eliminated the other 292 features
 </pre></div>
 </div>
 <img alt="_images/03-model-building_27_3.png" src="_images/03-model-building_27_3.png" />
@@ -780,19 +778,19 @@ RMSE orig price: 23511.456316295582
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.14050895 0.14855179 0.11545539 0.11880066 0.1032279 ]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.13966214 0.14872952 0.11481515 0.11832687 0.1029308 ]
 ---------------------------------------------------------------------------
-cv5 test rmse: [0.12513899 0.13606866 0.15125801 0.107381   0.09986547]
+cv5 test rmse: [0.12335639 0.13357488 0.15226293 0.10698545 0.10213062]
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="elastic-net-regression">
-<h3>4.3.4. 3.4. Elastic Net Regression<a class="headerlink" href="#elastic-net-regression" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">4.3.4. </span>3.4. Elastic Net Regression<a class="headerlink" href="#elastic-net-regression" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">ElasticNetCV</span><span class="p">,</span> <span class="n">ElasticNet</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">ElasticNetCV</span><span class="p">,</span> <span class="n">ElasticNet</span>
 </pre></div>
 </div>
 </div>
@@ -812,11 +810,9 @@ cv5 test rmse: [0.12513899 0.13606866 0.15125801 0.107381   0.09986547]
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>ElasticNetCV(alphas=[0.0001, 0.0003, 0.0006, 0.001, 0.003, 0.006, 0.01, 0.03,
                      0.06, 0.1, 0.3, 0.6, 1],
-             copy_X=True, cv=5, eps=0.001, fit_intercept=True,
+             cv=5,
              l1_ratio=array([0. , 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1. ]),
-             max_iter=50000, n_alphas=100, n_jobs=16, normalize=False,
-             positive=False, precompute=&#39;auto&#39;, random_state=42,
-             selection=&#39;cyclic&#39;, tol=0.0001, verbose=0)
+             max_iter=50000, n_jobs=16, random_state=42)
 </pre></div>
 </div>
 </div>
@@ -837,7 +833,7 @@ Best l1_ratio:  0.9
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">enet</span> <span class="o">=</span> <span class="n">ElasticNet</span><span class="p">(</span><span class="n">l1_ratio</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.0003</span><span class="p">)</span> 
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">enet</span> <span class="o">=</span> <span class="n">ElasticNet</span><span class="p">(</span><span class="n">l1_ratio</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.0006</span><span class="p">)</span>
 <span class="n">enet</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
 <span class="n">y_pred</span> <span class="o">=</span> <span class="n">enet</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_preproc</span><span class="p">)</span>
 
@@ -854,13 +850,13 @@ Best l1_ratio:  0.9
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>R-sq: 0.9010144903101696
-MSE: 0.01490785436893585
-RMSE: 0.1220977246673166
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>R-sq: 0.9089864660642593
+MSE: 0.013707223549868945
+RMSE: 0.11707785251647275
 --------------------------------------------------
-R-sq: 0.8961766162884645
-MSE: 552788578.1130755
-RMSE: 23511.456316295582
+R-sq: 0.9087354556227382
+MSE: 485921339.8266356
+RMSE: 22043.623563893383
 </pre></div>
 </div>
 </div>
@@ -903,7 +899,7 @@ RMSE: 23511.456316295582
 <div class="cell_output docutils container">
 <img alt="_images/03-model-building_34_0.png" src="_images/03-model-building_34_0.png" />
 <img alt="_images/03-model-building_34_1.png" src="_images/03-model-building_34_1.png" />
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ElasticNet picked 164 features and eliminated the other 271 features
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ElasticNet picked 146 features and eliminated the other 320 features
 </pre></div>
 </div>
 <img alt="_images/03-model-building_34_3.png" src="_images/03-model-building_34_3.png" />
@@ -927,19 +923,19 @@ RMSE: 23511.456316295582
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.14050895 0.14855179 0.11545539 0.11880066 0.1032279 ]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.13852348 0.15183482 0.11231201 0.12001222 0.10056093]
 ---------------------------------------------------------------------------
-cv5 test rmse: [0.12513899 0.13606866 0.15125801 0.107381   0.09986547]
+cv5 test rmse: [0.12009171 0.12695604 0.14997704 0.10703355 0.09994046]
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="support-vector-machine-regression">
-<h3>4.3.5. 3.5. Support Vector Machine Regression<a class="headerlink" href="#support-vector-machine-regression" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">4.3.5. </span>3.5. Support Vector Machine Regression<a class="headerlink" href="#support-vector-machine-regression" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="k">import</span> <span class="n">SVR</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVR</span>
 </pre></div>
 </div>
 </div>
@@ -947,7 +943,7 @@ cv5 test rmse: [0.12513899 0.13606866 0.15125801 0.107381   0.09986547]
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">svm</span> <span class="o">=</span> <span class="n">SVR</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">cache_size</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">coef0</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-          <span class="n">gamma</span><span class="o">=</span><span class="s1">&#39;auto_deprecated&#39;</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">shrinking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+          <span class="n">gamma</span><span class="o">=</span><span class="s1">&#39;scale&#39;</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">shrinking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
           <span class="n">tol</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">svm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
 <span class="n">y_pred</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_preproc</span><span class="p">)</span>
@@ -965,13 +961,13 @@ cv5 test rmse: [0.12513899 0.13606866 0.15125801 0.107381   0.09986547]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>R-sq: 0.8968213064911457
-MSE: 0.015539374819879279
-RMSE: 0.12465702876243794
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>R-sq: 0.8955105394422324
+MSE: 0.015736784767436555
+RMSE: 0.12544634218436404
 --------------------------------------------------
-R-sq: 0.9067042741593473
-MSE: 496735993.2592099
-RMSE: 22287.574862672023
+R-sq: 0.9072454176935487
+MSE: 493854773.69062626
+RMSE: 22222.843510465224
 </pre></div>
 </div>
 </div>
@@ -1015,7 +1011,7 @@ RMSE: 22287.574862672023
 <div class="cell_output docutils container">
 <img alt="_images/03-model-building_39_0.png" src="_images/03-model-building_39_0.png" />
 <img alt="_images/03-model-building_39_1.png" src="_images/03-model-building_39_1.png" />
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>SVR picked up 406 features and eliminated 29 features
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>SVR picked up 432 features and eliminated 34 features
 </pre></div>
 </div>
 <img alt="_images/03-model-building_39_3.png" src="_images/03-model-building_39_3.png" />
@@ -1039,20 +1035,20 @@ RMSE: 22287.574862672023
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.15146378 0.15787818 0.12898883 0.13207933 0.13457584]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.14957504 0.16388119 0.12907443 0.12985662 0.12969331]
 ---------------------------------------------------------------------------
-cv5 test rmse: [0.13791398 0.1441439  0.14965544 0.12819146 0.11473629]
+cv5 test rmse: [0.13748197 0.14273305 0.14976952 0.13041601 0.11279205]
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="random-forest">
-<h3>4.3.6. 3.6. Random Forest<a class="headerlink" href="#random-forest" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">4.3.6. </span>3.6. Random Forest<a class="headerlink" href="#random-forest" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">RandomForestRegressor</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">RandomizedSearchCV</span><span class="p">,</span> <span class="n">GridSearchCV</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RandomizedSearchCV</span><span class="p">,</span> <span class="n">GridSearchCV</span>
 </pre></div>
 </div>
 </div>
@@ -1076,13 +1072,13 @@ cv5 test rmse: [0.13791398 0.1441439  0.14965544 0.12819146 0.11473629]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>R-sq: 0.8852566755183313
-MSE: 0.017281082620479848
-RMSE: 0.13145753162325788
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>R-sq: 0.8868108060746313
+MSE: 0.01704702056355625
+RMSE: 0.13056423922175722
 --------------------------------------------------
-R-sq: 0.9002039323127011
-MSE: 531345872.0572291
-RMSE: 23050.940806336497
+R-sq: 0.9024646166318049
+MSE: 519309272.7320515
+RMSE: 22788.35827197851
 </pre></div>
 </div>
 </div>
@@ -1131,29 +1127,46 @@ RMSE: 23050.940806336497
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.160306   0.14831077 0.14985808 0.15684819 0.11964949]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.16002453 0.14649388 0.14909855 0.15625312 0.11625509]
 ---------------------------------------------------------------------------
-cv5 test rmse: [0.1391656  0.14652975 0.1743642  0.10697328 0.12931108]
+cv5 test rmse: [0.13777369 0.13908733 0.17495593 0.10873876 0.12586774]
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="adaptive-boost">
-<h3>4.3.7. 3.7. Adaptive Boost<a class="headerlink" href="#adaptive-boost" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">4.3.7. </span>Adaptive Boost<a class="headerlink" href="#adaptive-boost" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">AdaBoostRegressor</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">AdaBoostRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;ada_mod.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">mod_file</span><span class="p">:</span>
+    <span class="n">ada_cv</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">mod_file</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ada_cv</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>AdaBoostRegressor(base_estimator=DecisionTreeRegressor(ccp_alpha=None,
+                                                       max_depth=25,
+                                                       min_samples_leaf=12,
+                                                       min_samples_split=15,
+                                                       presort=False),
+                  learning_rate=0.5, loss=&#39;square&#39;, n_estimators=400)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;ada_mod.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">mod_file</span><span class="p">:</span>
-    <span class="n">ada_cv</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">mod_file</span><span class="p">)</span>
-    
-<span class="n">ada</span> <span class="o">=</span> <span class="n">ada_cv</span><span class="o">.</span><span class="n">best_estimator_</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ada</span> <span class="o">=</span> <span class="n">AdaBoostRegressor</span><span class="p">(</span><span class="n">base_estimator</span><span class="o">=</span><span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">ccp_alpha</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                                                             <span class="n">max_depth</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+                                                             <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+                                                             <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+                                                             <span class="n">presort</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                  <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;square&#39;</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
 <span class="n">ada</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
 
 <span class="n">y_pred</span> <span class="o">=</span> <span class="n">ada</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
@@ -1171,13 +1184,13 @@ cv5 test rmse: [0.1391656  0.14652975 0.1743642  0.10697328 0.12931108]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>R-sq: 0.8931565893414491
-MSE: 0.016091304791672204
-RMSE: 0.12685150685613555
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>R-sq: 0.8923128647344503
+MSE: 0.016218375143767588
+RMSE: 0.12735138453808653
 --------------------------------------------------
-R-sq: 0.9107964360218185
-MSE: 474948027.4224478
-RMSE: 21793.3023523845
+R-sq: 0.91330643799665
+MSE: 461583981.9335895
+RMSE: 21484.505624602803
 </pre></div>
 </div>
 </div>
@@ -1221,19 +1234,19 @@ RMSE: 21793.3023523845
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.15399754 0.15202758 0.14132471 0.14822732 0.13610171]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.1520095  0.15029817 0.14056953 0.14974671 0.13293588]
 ---------------------------------------------------------------------------
-cv5 test rmse: [0.13878185 0.15408832 0.17562935 0.09706429 0.12224351]
+cv5 test rmse: [0.13994939 0.15033632 0.17784175 0.09702315 0.12441705]
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="gradient-boost">
-<h3>4.3.8. 3.8. Gradient Boost<a class="headerlink" href="#gradient-boost" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">4.3.8. </span>Gradient Boost<a class="headerlink" href="#gradient-boost" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">GradientBoostingRegressor</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingRegressor</span>
 </pre></div>
 </div>
 </div>
@@ -1261,13 +1274,13 @@ cv5 test rmse: [0.13878185 0.15408832 0.17562935 0.09706429 0.12224351]
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Test accuracies:
 --------------------------------------------------
-R-sq: 0.9079561322680264
-MSE: 0.013862398446010428
-RMSE: 0.11773868712538979
+R-sq: 0.9107335477247503
+MSE: 0.013444101815719652
+RMSE: 0.1159487033809333
 --------------------------------------------------
-R-sq orig price: 0.9079179944137522
-MSE orig price: 490273762.21187997
-RMSE orig price: 22142.126415768653
+R-sq orig price: 0.9177014247391235
+MSE orig price: 438183680.5241508
+RMSE orig price: 20932.837373947918
 </pre></div>
 </div>
 </div>
@@ -1311,9 +1324,9 @@ RMSE orig price: 22142.126415768653
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.15704397 0.14154585 0.13843472 0.14286977 0.1185112 ]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.15072948 0.14150091 0.13647963 0.14329661 0.12132749]
 ---------------------------------------------------------------------------
-cv5 test rmse: [0.12879139 0.15810699 0.17085884 0.0979672  0.10970457]
+cv5 test rmse: [0.1221329  0.15406852 0.17034508 0.10566108 0.11376665]
 </pre></div>
 </div>
 </div>
@@ -1321,7 +1334,7 @@ cv5 test rmse: [0.12879139 0.15810699 0.17085884 0.0979672  0.10970457]
 </div>
 </div>
 <div class="section" id="model-performance">
-<h2>4.4. 4. Model Performance<a class="headerlink" href="#model-performance" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">4.4. </span>4. Model Performance<a class="headerlink" href="#model-performance" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mod_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
@@ -1363,13 +1376,15 @@ cv5 test rmse: [0.12879139 0.15810699 0.17085884 0.0979672  0.10970457]
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 RangeIndex: 8 entries, 0 to 7
 Data columns (total 5 columns):
-model              8 non-null object
-train_mean_rmse    8 non-null float64
-train_std_rmse     8 non-null float64
-test_mean_rmse     8 non-null float64
-test_std_rmse      8 non-null float64
+ #   Column           Non-Null Count  Dtype  
+---  ------           --------------  -----  
+ 0   model            8 non-null      object 
+ 1   train_mean_rmse  8 non-null      float64
+ 2   train_std_rmse   8 non-null      float64
+ 3   test_mean_rmse   8 non-null      float64
+ 4   test_std_rmse    8 non-null      float64
 dtypes: float64(4), object(1)
-memory usage: 400.0+ bytes
+memory usage: 448.0+ bytes
 </pre></div>
 </div>
 </div>
@@ -1447,68 +1462,68 @@ memory usage: 400.0+ bytes
   </thead>
   <tbody>
     <tr>
+      <th>3</th>
+      <td>enet</td>
+      <td>0.124649</td>
+      <td>0.018360</td>
+      <td>0.120800</td>
+      <td>0.017403</td>
+    </tr>
+    <tr>
       <th>1</th>
       <td>ridge</td>
-      <td>0.126144</td>
-      <td>0.016970</td>
-      <td>0.120622</td>
-      <td>0.015959</td>
+      <td>0.125802</td>
+      <td>0.016916</td>
+      <td>0.120868</td>
+      <td>0.015882</td>
     </tr>
     <tr>
       <th>2</th>
       <td>lasso</td>
-      <td>0.125309</td>
-      <td>0.016723</td>
-      <td>0.123942</td>
-      <td>0.018701</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>enet</td>
-      <td>0.125309</td>
-      <td>0.016723</td>
-      <td>0.123942</td>
-      <td>0.018701</td>
+      <td>0.124893</td>
+      <td>0.016813</td>
+      <td>0.123662</td>
+      <td>0.018210</td>
     </tr>
     <tr>
       <th>7</th>
       <td>gbrt</td>
-      <td>0.139681</td>
-      <td>0.012368</td>
-      <td>0.133086</td>
-      <td>0.027754</td>
+      <td>0.138667</td>
+      <td>0.009802</td>
+      <td>0.133195</td>
+      <td>0.024794</td>
     </tr>
     <tr>
       <th>4</th>
       <td>svm</td>
-      <td>0.140997</td>
-      <td>0.011485</td>
-      <td>0.134928</td>
-      <td>0.012360</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>ada</td>
-      <td>0.146336</td>
-      <td>0.006701</td>
-      <td>0.137561</td>
-      <td>0.026827</td>
+      <td>0.140416</td>
+      <td>0.014068</td>
+      <td>0.134639</td>
+      <td>0.012631</td>
     </tr>
     <tr>
       <th>5</th>
       <td>rf</td>
-      <td>0.146995</td>
-      <td>0.014366</td>
-      <td>0.139269</td>
-      <td>0.022030</td>
+      <td>0.145625</td>
+      <td>0.015464</td>
+      <td>0.137285</td>
+      <td>0.021762</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>ada</td>
+      <td>0.145112</td>
+      <td>0.007278</td>
+      <td>0.137914</td>
+      <td>0.026859</td>
     </tr>
     <tr>
       <th>0</th>
       <td>LR</td>
-      <td>1.811127</td>
-      <td>1.948867</td>
-      <td>3.780129</td>
-      <td>3.442991</td>
+      <td>1.837949</td>
+      <td>2.985976</td>
+      <td>0.954793</td>
+      <td>0.217902</td>
     </tr>
   </tbody>
 </table>
@@ -1546,7 +1561,7 @@ memory usage: 400.0+ bytes
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="02-feature-engineering.html" title="previous page">3. Statistical Data Analysis</a>
+    <a class='left-prev' id="prev-link" href="02-feature-engineering.html" title="previous page"><span class="section-number">3. </span>Statistical Data Analysis</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

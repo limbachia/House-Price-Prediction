@@ -2,9 +2,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>3. Statistical Data Analysis &#8212; Ames, Iowa Housing Dataset</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
@@ -15,27 +16,27 @@
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/sphinx-book-theme.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script type="text/javascript" src="_static/togglebutton.js"></script>
-    <script type="text/javascript" src="_static/clipboard.min.js"></script>
-    <script type="text/javascript" src="_static/copybutton.js"></script>
-    <script type="text/javascript" src="_static/mystnb.js"></script>
-    <script type="text/javascript" src="_static/sphinx-book-theme.js"></script>
-    <script type="text/javascript">var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
-    <script async="async" type="text/javascript" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
-    <script type="text/javascript">
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/mystnb.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
         const thebe_selector = ".thebe"
         const thebe_selector_input = "pre"
         const thebe_selector_output = ".output"
     </script>
-    <script async="async" type="text/javascript" src="_static/sphinx-thebe.js"></script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="4. Model Building" href="03-model-building.html" />
@@ -82,10 +83,7 @@
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="00-data-wrangling.html">
-   1.
-   <strong>
-    Data Wrangling
-   </strong>
+   1. Data Wrangling
   </a>
  </li>
  <li class="toctree-l1">
@@ -229,7 +227,7 @@
                 
   <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">HTML</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
 
 <span class="n">HTML</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;&lt;script&gt;</span>
 <span class="s1">code_show=true; </span>
@@ -263,7 +261,7 @@ $( document ).ready(code_toggle);
 <form action="javascript:code_toggle()"><input type="submit" value="Show Code"></form></div></div>
 </div>
 <div class="section" id="statistical-data-analysis">
-<h1>3. Statistical Data Analysis<a class="headerlink" href="#statistical-data-analysis" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">3. </span>Statistical Data Analysis<a class="headerlink" href="#statistical-data-analysis" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import useful libraries</span>
@@ -272,7 +270,7 @@ $( document ).ready(code_toggle);
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 
 <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -280,7 +278,7 @@ $( document ).ready(code_toggle);
 <span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 
 <span class="c1"># Import all functions</span>
-<span class="kn">from</span> <span class="nn">functions</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">functions</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="c1"># Set waring to &#39;ignore&#39; to prevent them from prining on screen</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
@@ -293,6 +291,12 @@ $( document ).ready(code_toggle);
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/wrangled_data.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
     <span class="n">housing_orig</span><span class="p">,</span> <span class="n">FEATURES</span><span class="p">,</span><span class="n">transformers</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dimensions of the dataset&#39;</span><span class="p">,</span><span class="n">housing_orig</span><span class="p">[</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;num&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;cat&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;aug_num&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Dimensions of the dataset (1454, 85)
 </pre></div>
 </div>
 </div>
@@ -307,7 +311,7 @@ $( document ).ready(code_toggle);
 </div>
 </div>
 <div class="section" id="numerical-features">
-<h2>3.1. Numerical Features<a class="headerlink" href="#numerical-features" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.1. </span>Numerical Features<a class="headerlink" href="#numerical-features" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing_num</span> <span class="o">=</span> <span class="n">housing</span><span class="p">[</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;num&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">FEATURES</span><span class="p">[</span><span class="s1">&#39;aug_num&#39;</span><span class="p">]]</span>
@@ -316,7 +320,7 @@ $( document ).ready(code_toggle);
 </div>
 </div>
 <div class="section" id="correlation-amongst-numerical-features">
-<h3>3.1.1. Correlation amongst Numerical Features<a class="headerlink" href="#correlation-amongst-numerical-features" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.1.1. </span>Correlation amongst Numerical Features<a class="headerlink" href="#correlation-amongst-numerical-features" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
@@ -337,7 +341,7 @@ $( document ).ready(code_toggle);
 <p>Let’s check the correlation matrix again.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">FunctionTransformer</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">FunctionTransformer</span>
 
 <span class="k">def</span> <span class="nf">addFeatures</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">new_features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;AreaPerRoom&#39;</span><span class="p">,</span><span class="s1">&#39;GarageYrBltMinusYearBuilt&#39;</span><span class="p">]):</span>
     <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">new_features</span><span class="p">:</span>
@@ -399,7 +403,7 @@ $( document ).ready(code_toggle);
 <p>Unlike the parent features, the newly added features (<strong>AreaPerRoom</strong> and <strong>GarageYrBltMinusYearBuilt</strong>) are not that highly correlated with the rest of the features. Neither are they highly correlated with the parent features.</p>
 </div>
 <div class="section" id="correlation-with-sale-price">
-<h3>3.1.2. Correlation with Sale Price<a class="headerlink" href="#correlation-with-sale-price" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.1.2. </span>Correlation with Sale Price<a class="headerlink" href="#correlation-with-sale-price" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing_num</span><span class="o">.</span><span class="n">corrwith</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;spearman&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Spearman correaltion with Sale Price&#39;</span><span class="p">)</span>
@@ -409,7 +413,7 @@ $( document ).ready(code_toggle);
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x7f494061a668&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x7f41f4a2f908&gt;
 </pre></div>
 </div>
 <img alt="_images/02-feature-engineering_16_1.png" src="_images/02-feature-engineering_16_1.png" />
@@ -442,9 +446,9 @@ $( document ).ready(code_toggle);
 </div>
 </div>
 <div class="section" id="categorical-features">
-<h2>3.2. Categorical Features<a class="headerlink" href="#categorical-features" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.2. </span>Categorical Features<a class="headerlink" href="#categorical-features" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="non-parametric-anova">
-<h3>3.2.1. Non-parametric ANOVA<a class="headerlink" href="#non-parametric-anova" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.2.1. </span>Non-parametric ANOVA<a class="headerlink" href="#non-parametric-anova" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
@@ -478,7 +482,7 @@ $( document ).ready(code_toggle);
 <p>The above bar plot shows influence of each categorical feature on the sale price. Features with higher disparity have greater influence on the sale price.</p>
 </div>
 <div class="section" id="ordinal-features">
-<h3>3.2.2. Ordinal Features<a class="headerlink" href="#ordinal-features" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.2.2. </span>Ordinal Features<a class="headerlink" href="#ordinal-features" title="Permalink to this headline">¶</a></h3>
 <p>Description of following categorical feature indicate they have ordinal categories</p>
 <ul class="simple">
 <li><p>LandSlope</p></li>
@@ -565,24 +569,26 @@ $( document ).ready(code_toggle);
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 Int64Index: 1454 entries, 1 to 1460
 Data columns (total 16 columns):
-LandSlope       1454 non-null float64
-ExterQual       1454 non-null object
-ExterCond       1454 non-null float64
-BsmtQual        1454 non-null float64
-BsmtCond        1454 non-null float64
-BsmtExposure    1454 non-null float64
-BsmtFinType1    1454 non-null float64
-BsmtFinType2    1454 non-null float64
-HeatingQC       1454 non-null float64
-KitchenQual     1454 non-null object
-FireplaceQu     1454 non-null float64
-GarageFinish    1454 non-null float64
-GarageQual      1454 non-null float64
-GarageCond      1454 non-null float64
-PavedDrive      1454 non-null float64
-PoolQC          1454 non-null float64
-dtypes: float64(14), object(2)
-memory usage: 193.1+ KB
+ #   Column        Non-Null Count  Dtype  
+---  ------        --------------  -----  
+ 0   LandSlope     1454 non-null   float64
+ 1   ExterQual     1454 non-null   float64
+ 2   ExterCond     1454 non-null   float64
+ 3   BsmtQual      1454 non-null   float64
+ 4   BsmtCond      1454 non-null   float64
+ 5   BsmtExposure  1454 non-null   float64
+ 6   BsmtFinType1  1454 non-null   float64
+ 7   BsmtFinType2  1454 non-null   float64
+ 8   HeatingQC     1454 non-null   float64
+ 9   KitchenQual   1454 non-null   float64
+ 10  FireplaceQu   1454 non-null   float64
+ 11  GarageFinish  1454 non-null   float64
+ 12  GarageQual    1454 non-null   float64
+ 13  GarageCond    1454 non-null   float64
+ 14  PavedDrive    1454 non-null   float64
+ 15  PoolQC        1454 non-null   float64
+dtypes: float64(16)
+memory usage: 233.1 KB
 </pre></div>
 </div>
 </div>
@@ -590,7 +596,7 @@ memory usage: 193.1+ KB
 <p><strong>Note: From here train and test sets are processed togather</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="k">import</span> <span class="n">Pipeline</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
 <span class="n">train_raw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/train.csv&#39;</span><span class="p">,</span><span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Id&#39;</span><span class="p">)</span>
 <span class="n">test_raw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/test.csv&#39;</span><span class="p">,</span><span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Id&#39;</span><span class="p">)</span>
@@ -638,7 +644,7 @@ True
 </div>
 </div>
 <div class="section" id="one-hot-ecoding-one-hot-encode-following-features">
-<h3>3.2.3. One hot ecoding: one hot encode following features<a class="headerlink" href="#one-hot-ecoding-one-hot-encode-following-features" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.2.3. </span>One hot ecoding: one hot encode following features<a class="headerlink" href="#one-hot-ecoding-one-hot-encode-following-features" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>MSSubClass</p></li>
 <li><p>MSZoning</p></li>
@@ -707,24 +713,24 @@ True
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Training set size:-&#39;</span><span class="p">,</span><span class="n">train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Training set size:&#39;</span><span class="p">,</span><span class="n">train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Training set size:- (1454, 240)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Training set size: (1454, 240)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test set size:-&#39;</span><span class="p">,</span><span class="n">test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test set size:&#39;</span><span class="p">,</span><span class="n">test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Test set size:- (1459, 240)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Test set size: (1459, 240)
 </pre></div>
 </div>
 </div>
@@ -732,14 +738,15 @@ True
 </div>
 </div>
 <div class="section" id="interactions">
-<h2>3.3. Interactions<a class="headerlink" href="#interactions" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.3. </span>Interactions<a class="headerlink" href="#interactions" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Check pairwise feature correlations</p></li>
 <li><p>Create interactions of feature pairs with high correlations (&gt; 0.4)</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">corr_df</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#corr_df = train.drop([&#39;ExterQual&#39;,&#39;KitchenQual&#39;],axis=1).corr()</span>
+<span class="n">corr_df</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
 <span class="sd">&#39;&#39;&#39; Create a dictionary with feature pairs as keys and their correlations as values&#39;&#39;&#39;</span>
 <span class="n">corr_dict</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">corr_df</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -763,14 +770,14 @@ True
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total pairs with corr greater than </span><span class="si">%.2f</span><span class="s1">: </span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">targetCorr</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">high_corr_dict</span><span class="p">)))</span>
 
 <span class="sd">&#39;&#39;&#39;Sort corr dict in descending order&#39;&#39;&#39;</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="n">high_corr_dict</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">high_corr_dict</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 <span class="c1">#print(high_corr_dict)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Total pairs with corr greater than 0.40: 195
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Total pairs with corr greater than 0.40: 226
 </pre></div>
 </div>
 </div>
@@ -801,10 +808,10 @@ True
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Total number of training examples : 1454
-Total number of training features : 435
+Total number of training features : 466
 --------------------------------------------------
 Total number of test examples : 1459
-Total number of test features : 435
+Total number of test features : 466
 </pre></div>
 </div>
 </div>
@@ -848,8 +855,8 @@ Total number of test features : 435
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="01-data-storytelling.html" title="previous page">2. Data Storytelling</a>
-    <a class='right-next' id="next-link" href="03-model-building.html" title="next page">4. Model Building</a>
+    <a class='left-prev' id="prev-link" href="01-data-storytelling.html" title="previous page"><span class="section-number">2. </span>Data Storytelling</a>
+    <a class='right-next' id="next-link" href="03-model-building.html" title="next page"><span class="section-number">4. </span>Model Building</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

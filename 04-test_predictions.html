@@ -2,10 +2,11 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>&lt;no title&gt; &#8212; Ames, Iowa Housing Dataset</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ridge &#8212; Ames, Iowa Housing Dataset</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -15,27 +16,27 @@
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/sphinx-book-theme.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script type="text/javascript" src="_static/togglebutton.js"></script>
-    <script type="text/javascript" src="_static/clipboard.min.js"></script>
-    <script type="text/javascript" src="_static/copybutton.js"></script>
-    <script type="text/javascript" src="_static/mystnb.js"></script>
-    <script type="text/javascript" src="_static/sphinx-book-theme.js"></script>
-    <script type="text/javascript">var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
-    <script async="async" type="text/javascript" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
-    <script type="text/javascript">
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/mystnb.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
         const thebe_selector = ".thebe"
         const thebe_selector_input = "pre"
         const thebe_selector_output = ".output"
     </script>
-    <script async="async" type="text/javascript" src="_static/sphinx-thebe.js"></script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
 
@@ -80,10 +81,7 @@
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="00-data-wrangling.html">
-   1.
-   <strong>
-    Data Wrangling
-   </strong>
+   1. Data Wrangling
   </a>
  </li>
  <li class="toctree-l1">
@@ -187,17 +185,19 @@
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 
 <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">Ridge</span><span class="p">,</span> <span class="n">ElasticNet</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">mean_squared_error</span>
-
 <span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span> <span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span><span class="n">font_scale</span><span class="o">=</span><span class="mf">1.25</span><span class="p">)</span>
-
 <span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span><span class="p">,</span> <span class="n">Lasso</span><span class="p">,</span> <span class="n">ElasticNet</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">mean_squared_error</span>
+
+<span class="c1"># Set waring to &#39;ignore&#39; to prevent them from prining on screen</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -223,14 +223,14 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Total 217 features to normalize
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Total 246 features to normalize
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">StandardScaler</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
 
 <span class="n">ss</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
 <span class="n">ss</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="n">feat_to_norm</span><span class="p">])</span>
@@ -249,12 +249,14 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>X_train_preproc : (1454, 437)
-X_test_preproc : (1459, 437)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>X_train_preproc : (1454, 466)
+X_test_preproc : (1459, 466)
 </pre></div>
 </div>
 </div>
 </div>
+<div class="section" id="ridge">
+<h1>Ridge<a class="headerlink" href="#ridge" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ridge</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
@@ -279,13 +281,13 @@ X_test_preproc : (1459, 437)
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Train accuracies:
 --------------------------------------------------
-R-sq: 0.9370209293268082
-MSE: 0.010012267484433445
-RMSE: 0.10006131862230001
+R-sq: 0.9374962646711976
+MSE: 0.009936699767063854
+RMSE: 0.09968299637884012
 --------------------------------------------------
-R-sq orig price: 0.9380860271165936
-MSE orig price: 388925089.7585476
-RMSE orig price: 19721.183781876472
+R-sq orig price: 0.9388818146952416
+MSE orig price: 383926189.8165709
+RMSE orig price: 19594.03454668208
 </pre></div>
 </div>
 </div>
@@ -301,9 +303,61 @@ RMSE orig price: 19721.183781876472
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="lasso">
+<h1>Lasso<a class="headerlink" href="#lasso" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">enet</span> <span class="o">=</span> <span class="n">ElasticNet</span><span class="p">(</span><span class="n">l1_ratio</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.0003</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lasso</span> <span class="o">=</span> <span class="n">Lasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.0003</span><span class="p">)</span>
+<span class="n">lasso</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">lasso</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Train accuracies:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq:&#39;</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE:&#39;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)))</span>
+
+<span class="n">y_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">y_pred_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq orig price:&#39;</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_exp</span><span class="p">,</span> <span class="n">y_pred_exp</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE orig price:&#39;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_exp</span><span class="p">,</span> <span class="n">y_pred_exp</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE orig price:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_exp</span><span class="p">,</span> <span class="n">y_pred_exp</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Train accuracies:
+--------------------------------------------------
+R-sq: 0.9410137045535535
+MSE: 0.009377505282513417
+RMSE: 0.09683752001426625
+--------------------------------------------------
+R-sq orig price: 0.9446761515810551
+MSE orig price: 347527895.72470134
+RMSE orig price: 18642.100088903648
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y_test_pred</span> <span class="o">=</span> <span class="n">lasso</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_preproc</span><span class="p">)</span>
+<span class="n">y_test_pred_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">y_test_pred</span><span class="p">)</span>
+
+<span class="n">test_predictions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_test_pred_exp</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="n">X_test_preproc</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+<span class="n">test_predictions</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;data/Limbachia_lasso_predictions.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="elasticnet-l1-ratio-0-9-alpha-0-0006">
+<h1>ElasticNet(l1_ratio=0.9,alpha=0.0006)<a class="headerlink" href="#elasticnet-l1-ratio-0-9-alpha-0-0006" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">enet</span> <span class="o">=</span> <span class="n">ElasticNet</span><span class="p">(</span><span class="n">l1_ratio</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.0006</span><span class="p">)</span>
 <span class="n">enet</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 <span class="n">y_pred</span> <span class="o">=</span> <span class="n">enet</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">)</span>
 
@@ -325,19 +379,14 @@ RMSE orig price: 19721.183781876472
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Train accuracies:
 --------------------------------------------------
-R-sq: 0.9406961689034393
-MSE: 0.009427986368226544
-RMSE: 0.09709781855544719
+R-sq: 0.93423068574252
+MSE: 0.010455853977755752
+RMSE: 0.10225387023362857
 --------------------------------------------------
-R-sq orig price: 0.9439719127827979
-MSE orig price: 351951713.5652946
-RMSE orig price: 18760.376157350755
+R-sq orig price: 0.936444670871035
+MSE orig price: 399235599.57402647
+RMSE orig price: 19980.880850804013
 </pre></div>
-</div>
-<div class="stderr docutils container">
-<pre class="stderr literal-block">/home/climbach/anaconda3/lib/python3.7/site-packages/sklearn/linear_model/coordinate_descent.py:475: ConvergenceWarning: Objective did not converge. You might want to increase the number of iterations. Duality gap: 1.7816302591814628, tolerance: 0.02311535684276627
-  positive)
-</pre>
 </div>
 </div>
 </div>
@@ -349,6 +398,7 @@ RMSE orig price: 18760.376157350755
 <span class="n">test_predictions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_test_pred_exp</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="n">X_test_preproc</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
 <span class="n">test_predictions</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;data/Limbachia_enet_predictions.csv&#39;</span><span class="p">)</span>
 </pre></div>
+</div>
 </div>
 </div>
 </div>

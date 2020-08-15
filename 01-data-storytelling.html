@@ -2,9 +2,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>2. Data Storytelling &#8212; Ames, Iowa Housing Dataset</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
@@ -15,27 +16,27 @@
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/sphinx-book-theme.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script type="text/javascript" src="_static/togglebutton.js"></script>
-    <script type="text/javascript" src="_static/clipboard.min.js"></script>
-    <script type="text/javascript" src="_static/copybutton.js"></script>
-    <script type="text/javascript" src="_static/mystnb.js"></script>
-    <script type="text/javascript" src="_static/sphinx-book-theme.js"></script>
-    <script type="text/javascript">var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
-    <script async="async" type="text/javascript" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
-    <script type="text/javascript">
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/mystnb.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
         const thebe_selector = ".thebe"
         const thebe_selector_input = "pre"
         const thebe_selector_output = ".output"
     </script>
-    <script async="async" type="text/javascript" src="_static/sphinx-thebe.js"></script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="3. Statistical Data Analysis" href="02-feature-engineering.html" />
@@ -82,10 +83,7 @@
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="00-data-wrangling.html">
-   1.
-   <strong>
-    Data Wrangling
-   </strong>
+   1. Data Wrangling
   </a>
  </li>
  <li class="toctree-l1 current active">
@@ -309,7 +307,7 @@
                 
   <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">HTML</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
 
 <span class="n">HTML</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;&lt;script&gt;</span>
 <span class="s1">code_show=true; </span>
@@ -343,7 +341,7 @@ $( document ).ready(code_toggle);
 <form action="javascript:code_toggle()"><input type="submit" value="Show Code"></form></div></div>
 </div>
 <div class="section" id="data-storytelling">
-<h1>2. Data Storytelling<a class="headerlink" href="#data-storytelling" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">2. </span>Data Storytelling<a class="headerlink" href="#data-storytelling" title="Permalink to this headline">¶</a></h1>
 <p>This notebook dives deeper into data and tries to tell a story by means of visualizations.<br />
 Data was cleaned in the previous data-wrangling exercise. Therefore, there are no outliers or missing values in the current data.</p>
 <div class="cell docutils container">
@@ -354,7 +352,7 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 
 <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -362,7 +360,7 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 <span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 
 <span class="c1"># Import all functions</span>
-<span class="kn">from</span> <span class="nn">functions</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">functions</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="c1"># Set waring to &#39;ignore&#39; to prevent them from prining on screen</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
@@ -579,9 +577,9 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 </div></div></div>
 </div>
 <div class="section" id="bivariate-analysis">
-<h2>2.1. Bivariate Analysis<a class="headerlink" href="#bivariate-analysis" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.1. </span>Bivariate Analysis<a class="headerlink" href="#bivariate-analysis" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="numerical-data">
-<h3>2.1.1. Numerical Data<a class="headerlink" href="#numerical-data" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.1.1. </span>Numerical Data<a class="headerlink" href="#numerical-data" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">SalePrice</span>
@@ -636,7 +634,7 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 </div>
 </div>
 <div class="section" id="overall-quality-vs-sale-price">
-<h4>2.1.1.1. Overall quality vs. Sale Price<a class="headerlink" href="#overall-quality-vs-sale-price" title="Permalink to this headline">¶</a></h4>
+<h4><span class="section-number">2.1.1.1. </span>Overall quality vs. Sale Price<a class="headerlink" href="#overall-quality-vs-sale-price" title="Permalink to this headline">¶</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;OverallQual&#39;</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">housing</span><span class="p">)</span>
@@ -655,7 +653,7 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 </ul>
 </div>
 <div class="section" id="housing-property-size-vs-sale-price">
-<h4>2.1.1.2. Housing property size vs. Sale Price<a class="headerlink" href="#housing-property-size-vs-sale-price" title="Permalink to this headline">¶</a></h4>
+<h4><span class="section-number">2.1.1.2. </span>Housing property size vs. Sale Price<a class="headerlink" href="#housing-property-size-vs-sale-price" title="Permalink to this headline">¶</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">size</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;GrLivArea&#39;</span><span class="p">,</span>
@@ -720,10 +718,10 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 </div>
 </div>
 <div class="section" id="categorical-data">
-<h3>2.1.2. Categorical Data<a class="headerlink" href="#categorical-data" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.1.2. </span>Categorical Data<a class="headerlink" href="#categorical-data" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
 </pre></div>
 </div>
 </div>
@@ -821,7 +819,7 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 </div>
 </div>
 <div class="section" id="multivariate-analysis">
-<h2>2.2. Multivariate Analysis<a class="headerlink" href="#multivariate-analysis" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.2. </span>Multivariate Analysis<a class="headerlink" href="#multivariate-analysis" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cpal</span><span class="p">(</span><span class="n">n_colors</span><span class="p">):</span>
@@ -940,7 +938,7 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 </div>
 </div>
 <div class="section" id="is-there-a-relationship-between-neighhood-and-overall-quality">
-<h3>2.2.1. <strong>Is there a relationship between Neighhood and Overall Quality?</strong><a class="headerlink" href="#is-there-a-relationship-between-neighhood-and-overall-quality" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.2.1. </span><strong>Is there a relationship between Neighhood and Overall Quality?</strong><a class="headerlink" href="#is-there-a-relationship-between-neighhood-and-overall-quality" title="Permalink to this headline">¶</a></h3>
 <p>Neighborhood and Overall quality had the highest influence of the sale price.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -998,7 +996,7 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 </ul>
 </div>
 <div class="section" id="does-garage-finish-vary-by-neigborhood">
-<h3>2.2.2. <strong>Does garage finish vary by neigborhood?</strong><a class="headerlink" href="#does-garage-finish-vary-by-neigborhood" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.2.2. </span><strong>Does garage finish vary by neigborhood?</strong><a class="headerlink" href="#does-garage-finish-vary-by-neigborhood" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Neighborhood&#39;</span><span class="p">,</span><span class="s1">&#39;GarageFinish&#39;</span><span class="p">])[</span><span class="s1">&#39;GarageFinish&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s1">&#39;GarageFinish&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">order</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1020,7 +1018,7 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 </ul>
 </div>
 <div class="section" id="what-types-of-garage-are-most-prevalent-in-different-neighborhoods">
-<h3>2.2.3. <strong>What types of garage are most prevalent in different neighborhoods?</strong><a class="headerlink" href="#what-types-of-garage-are-most-prevalent-in-different-neighborhoods" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.2.3. </span><strong>What types of garage are most prevalent in different neighborhoods?</strong><a class="headerlink" href="#what-types-of-garage-are-most-prevalent-in-different-neighborhoods" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Neighborhood&#39;</span><span class="p">,</span><span class="s1">&#39;GarageType&#39;</span><span class="p">])[</span><span class="s1">&#39;GarageType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s1">&#39;GarageType&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">order</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1050,7 +1048,7 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 </div>
 </div>
 <div class="section" id="in-what-year-highest-number-of-houses-were-built">
-<h3>2.2.4. <strong>In what year highest number of houses were built?</strong><a class="headerlink" href="#in-what-year-highest-number-of-houses-were-built" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.2.4. </span><strong>In what year highest number of houses were built?</strong><a class="headerlink" href="#in-what-year-highest-number-of-houses-were-built" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
@@ -1077,7 +1075,7 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 </ul>
 </div>
 <div class="section" id="generally-after-how-many-years-is-a-house-remodeled">
-<h3>2.2.5. <strong>Generally after how many years is a house remodeled?</strong><a class="headerlink" href="#generally-after-how-many-years-is-a-house-remodeled" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.2.5. </span><strong>Generally after how many years is a house remodeled?</strong><a class="headerlink" href="#generally-after-how-many-years-is-a-house-remodeled" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">remod_after</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">YearRemodAdd</span> <span class="o">-</span> <span class="n">housing</span><span class="o">.</span><span class="n">YearBuilt</span>
@@ -1099,7 +1097,7 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 </ul>
 </div>
 <div class="section" id="in-which-year-most-of-the-houses-were-sold">
-<h3>2.2.6. <strong>In which year most of the houses were sold?</strong><a class="headerlink" href="#in-which-year-most-of-the-houses-were-sold" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.2.6. </span><strong>In which year most of the houses were sold?</strong><a class="headerlink" href="#in-which-year-most-of-the-houses-were-sold" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">YrSold</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
@@ -1119,7 +1117,7 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 </ul>
 </div>
 <div class="section" id="is-there-a-particular-time-of-the-year-when-people-choose-to-buy-a-house">
-<h3>2.2.7. <strong>Is there a particular time of the year when people choose to buy a house?</strong><a class="headerlink" href="#is-there-a-particular-time-of-the-year-when-people-choose-to-buy-a-house" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.2.7. </span><strong>Is there a particular time of the year when people choose to buy a house?</strong><a class="headerlink" href="#is-there-a-particular-time-of-the-year-when-people-choose-to-buy-a-house" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">MoSold</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Most houses sold during summer,</span><span class="se">\n</span><span class="s1">particularly in the month of June&#39;</span><span class="p">)</span>
@@ -1138,7 +1136,7 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 </ul>
 </div>
 <div class="section" id="do-house-prices-fluctuate-across-the-year">
-<h3>2.2.8. <strong>Do house prices fluctuate across the year?</strong><a class="headerlink" href="#do-house-prices-fluctuate-across-the-year" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.2.8. </span><strong>Do house prices fluctuate across the year?</strong><a class="headerlink" href="#do-house-prices-fluctuate-across-the-year" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;MoSold&#39;</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;SalePrice&#39;</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">housing</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">palette</span><span class="p">[</span><span class="mi">0</span><span class="p">],)</span>
@@ -1157,7 +1155,7 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 </ul>
 </div>
 <div class="section" id="house-zoning-in-different-neighborhoods">
-<h3>2.2.9. <strong>House zoning in different neighborhoods</strong><a class="headerlink" href="#house-zoning-in-different-neighborhoods" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.2.9. </span><strong>House zoning in different neighborhoods</strong><a class="headerlink" href="#house-zoning-in-different-neighborhoods" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Neighborhood&#39;</span><span class="p">,</span><span class="s1">&#39;MSZoning&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s1">&#39;MSZoning&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">order</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1190,7 +1188,7 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 </ul>
 </div>
 <div class="section" id="is-the-size-of-the-housing-property-influenced-by-zoning">
-<h3>2.2.10. <strong>Is the size of the housing property influenced by zoning?</strong><a class="headerlink" href="#is-the-size-of-the-housing-property-influenced-by-zoning" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.2.10. </span><strong>Is the size of the housing property influenced by zoning?</strong><a class="headerlink" href="#is-the-size-of-the-housing-property-influenced-by-zoning" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
@@ -1233,7 +1231,7 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
 </ul>
 </div>
 <div class="section" id="what-is-the-most-commom-building-type-and-housing-style-for-houses-in-ames">
-<h3>2.2.11. <strong>What is the most commom building-type and housing-style for houses in Ames?</strong><a class="headerlink" href="#what-is-the-most-commom-building-type-and-housing-style-for-houses-in-ames" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.2.11. </span><strong>What is the most commom building-type and housing-style for houses in Ames?</strong><a class="headerlink" href="#what-is-the-most-commom-building-type-and-housing-style-for-houses-in-ames" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">housing</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;BldgType&#39;</span><span class="p">,</span><span class="s1">&#39;Neighborhood&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s1">&#39;BldgType&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">order</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1296,8 +1294,8 @@ Data was cleaned in the previous data-wrangling exercise. Therefore, there are n
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="00-data-wrangling.html" title="previous page">1. <strong>Data Wrangling</strong></a>
-    <a class='right-next' id="next-link" href="02-feature-engineering.html" title="next page">3. Statistical Data Analysis</a>
+    <a class='left-prev' id="prev-link" href="00-data-wrangling.html" title="previous page"><span class="section-number">1. </span>Data Wrangling</a>
+    <a class='right-next' id="next-link" href="02-feature-engineering.html" title="next page"><span class="section-number">3. </span>Statistical Data Analysis</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
