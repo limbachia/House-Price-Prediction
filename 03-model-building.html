@@ -428,11 +428,6 @@ X_test_preproc : (437, 466)
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="models">
-<h2><span class="section-number">4.3. </span>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="linear-regression">
-<h3><span class="section-number">4.3.1. </span>Linear Regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import linear regression model</span>
@@ -449,63 +444,97 @@ X_test_preproc : (437, 466)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cv_rmse</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Some functions that will be used frequently</span>
+<span class="k">def</span> <span class="nf">test_accuracy</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Takes y_test and y_pred and prints out R-sq, MSE, and RMSE</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Validation set performance measures:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))))</span>
+
+    <span class="n">y_test_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
+    <span class="n">y_pred_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq orig price: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span> <span class="n">y_pred_exp</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE orig price: </span><span class="si">%.2f</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span> <span class="n">y_pred_exp</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE orig price: $</span><span class="si">%.2f</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span> <span class="n">y_pred_exp</span><span class="p">))))</span>
+
+
+<span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">model_name</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">X_val</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">y_val</span><span class="p">):</span>
+    
+    <span class="n">y_train_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">y_test_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_val</span><span class="p">)</span>
+    
+    <span class="c1"># Plot residuals</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_train_pred</span><span class="p">,</span> <span class="n">y_train_pred</span> <span class="o">-</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Training data&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_test_pred</span><span class="p">,</span> <span class="n">y_test_pred</span> <span class="o">-</span> <span class="n">y_val</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;lightgreen&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Validation data&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted values&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Residuals&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span> <span class="o">=</span> <span class="mf">10.5</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="mf">13.5</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="c1"># Plot predictions</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_train_pred</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Training data&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_test_pred</span><span class="p">,</span> <span class="n">y_val</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;lightgreen&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Validation data&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted values&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Observed values&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">10.5</span><span class="p">,</span> <span class="mf">13.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">10.5</span><span class="p">,</span> <span class="mf">13.5</span><span class="p">],</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
+    
+    
+<span class="k">def</span> <span class="nf">cv_rmse</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
     <span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;neg_mean_squared_error&quot;</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="n">scores</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="models">
+<h2><span class="section-number">4.3. </span>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="linear-regression">
+<h3><span class="section-number">4.3.1. </span>Linear Regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
 <span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
 
-
 <span class="n">y_train_pred</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">)</span>
 <span class="n">y_test_pred</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_preproc</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Train R-sq:&#39;</span><span class="p">,</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_train_pred</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test R-sq:&#39;</span><span class="p">,</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_test_pred</span><span class="p">))</span>
+<span class="n">test_accuracy</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_test_pred</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Train R-sq: 0.9648529652760376
-Test R-sq: 0.4414456763442427
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Validation set performance measures:
+--------------------------------------------------
+R-sq: 0.441
+MSE: 0.084
+RMSE: 0.290
+--------------------------------------------------
+R-sq orig price: -6.528
+MSE orig price: 40078972846.05
+RMSE orig price: $200197.33
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot residuals</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_train_pred</span><span class="p">,</span> <span class="n">y_train_pred</span> <span class="o">-</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Training data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_test_pred</span><span class="p">,</span> <span class="n">y_test_pred</span> <span class="o">-</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;lightgreen&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Validation data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Linear regression&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted values&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Residuals&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span> <span class="o">=</span> <span class="mf">10.5</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="mf">13.5</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># Plot predictions</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_train_pred</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Training data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_test_pred</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;lightgreen&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Validation data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Linear regression&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted values&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Observed values&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">10.5</span><span class="p">,</span> <span class="mf">13.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">10.5</span><span class="p">,</span> <span class="mf">13.5</span><span class="p">],</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">lr</span><span class="p">,</span><span class="s2">&quot;Linear Regression&quot;</span><span class="p">,</span><span class="n">X_train_preproc</span><span class="p">,</span><span class="n">X_test_preproc</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03-model-building_16_0.png" src="_images/03-model-building_16_0.png" />
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fe123483320&gt;]
-</pre></div>
-</div>
-<img alt="_images/03-model-building_16_2.png" src="_images/03-model-building_16_2.png" />
+<img alt="_images/03-model-building_15_0.png" src="_images/03-model-building_15_0.png" />
+<img alt="_images/03-model-building_15_1.png" src="_images/03-model-building_15_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -559,61 +588,31 @@ cv5 test rmse: [0.76827203 1.138192   0.81778919 1.28980219 0.75990774]
 <span class="n">ridge</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="n">y_pred</span> <span class="o">=</span> <span class="n">ridge</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_preproc</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test accuracies:&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq:&#39;</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE:&#39;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)))</span>
-
-<span class="n">y_test_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
-<span class="n">y_pred_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq orig price:&#39;</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span> <span class="n">y_pred_exp</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE orig price:&#39;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span> <span class="n">y_pred_exp</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE orig price:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span> <span class="n">y_pred_exp</span><span class="p">)))</span>
+<span class="n">test_accuracy</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Test accuracies:
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Validation set performance measures:
 --------------------------------------------------
-R-sq: 0.909347559888787
-MSE: 0.013652840497577244
-RMSE: 0.11684537003055467
+R-sq: 0.909
+MSE: 0.014
+RMSE: 0.117
 --------------------------------------------------
-R-sq orig price: 0.9101261340596172
-MSE orig price: 478516927.3691223
-RMSE orig price: 21875.029768416825
+R-sq orig price: 0.910
+MSE orig price: 478516927.37
+RMSE orig price: $21875.03
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y_train_rdg</span> <span class="o">=</span> <span class="n">ridge</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">)</span>
-<span class="n">y_test_rdg</span> <span class="o">=</span> <span class="n">ridge</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_preproc</span><span class="p">)</span>
-
-<span class="c1"># Plot residuals</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_train_rdg</span><span class="p">,</span> <span class="n">y_train_rdg</span> <span class="o">-</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Training data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_test_rdg</span><span class="p">,</span> <span class="n">y_test_rdg</span> <span class="o">-</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;lightgreen&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Validation data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Linear regression with Ridge regularization&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted values&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Residuals&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span> <span class="o">=</span> <span class="mf">10.5</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="mf">13.5</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># Plot predictions</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_train_rdg</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Training data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_test_rdg</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;lightgreen&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Validation data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Linear regression with Ridge regularization&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted values&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Observed values&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">10.5</span><span class="p">,</span> <span class="mf">13.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">10.5</span><span class="p">,</span> <span class="mf">13.5</span><span class="p">],</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot residuals and predicted value plots</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">ridge</span><span class="p">,</span><span class="s2">&quot;Ridge Regression&quot;</span><span class="p">,</span><span class="n">X_train_preproc</span><span class="p">,</span><span class="n">X_test_preproc</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
 
 <span class="c1"># Plot important coefficients</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">coefs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ridge</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ridge picked &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">coefs</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; features and eliminated the other &quot;</span> <span class="o">+</span>  \
       <span class="nb">str</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">coefs</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; features&quot;</span><span class="p">)</span>
@@ -625,12 +624,12 @@ RMSE orig price: 21875.029768416825
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03-model-building_21_0.png" src="_images/03-model-building_21_0.png" />
-<img alt="_images/03-model-building_21_1.png" src="_images/03-model-building_21_1.png" />
+<img alt="_images/03-model-building_20_0.png" src="_images/03-model-building_20_0.png" />
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Ridge picked 454 features and eliminated the other 12 features
 </pre></div>
 </div>
-<img alt="_images/03-model-building_21_3.png" src="_images/03-model-building_21_3.png" />
+<img alt="_images/03-model-building_20_2.png" src="_images/03-model-building_20_2.png" />
+<img alt="_images/03-model-building_20_3.png" src="_images/03-model-building_20_3.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -690,57 +689,32 @@ cv5 test rmse: [0.12090563 0.12652353 0.14737171 0.10683139 0.10270972]
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lasso</span> <span class="o">=</span> <span class="n">Lasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.0003</span><span class="p">)</span>
 <span class="n">lasso</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="n">y_pred</span> <span class="o">=</span> <span class="n">lasso</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_preproc</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq:&#39;</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE:&#39;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)))</span>
 
-
-<span class="n">y_pred_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq orig price:&#39;</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span> <span class="n">y_pred_exp</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE orig price:&#39;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span> <span class="n">y_pred_exp</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE orig price:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span> <span class="n">y_pred_exp</span><span class="p">)))</span>
+<span class="n">test_accuracy</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>R-sq: 0.900911643068392
-MSE: 0.014923343824993315
-RMSE: 0.12216113876758564
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Validation set performance measures:
 --------------------------------------------------
-R-sq orig price: 0.8969800704761717
-MSE orig price: 548510733.5454615
-RMSE orig price: 23420.30600879206
+R-sq: 0.901
+MSE: 0.015
+RMSE: 0.122
+--------------------------------------------------
+R-sq orig price: 0.897
+MSE orig price: 548510733.55
+RMSE orig price: $23420.31
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y_train_las</span> <span class="o">=</span> <span class="n">lasso</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">)</span>
-<span class="n">y_test_las</span> <span class="o">=</span> <span class="n">lasso</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_preproc</span><span class="p">)</span>
-
-<span class="c1"># Plot residuals</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_train_las</span><span class="p">,</span> <span class="n">y_train_las</span> <span class="o">-</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Training data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_test_las</span><span class="p">,</span> <span class="n">y_test_las</span> <span class="o">-</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;lightgreen&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Validation data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Linear regression with Lasso regularization&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted values&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Residuals&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span> <span class="o">=</span> <span class="mf">10.5</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="mf">13.5</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># Plot predictions</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_train_las</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Training data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_test_las</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;lightgreen&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Validation data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Linear regression with Lasso regularization&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted values&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Observed values&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">10.5</span><span class="p">,</span> <span class="mf">13.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">10.5</span><span class="p">,</span> <span class="mf">13.5</span><span class="p">],</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot residuals and predicted value plots</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">lasso</span><span class="p">,</span><span class="s2">&quot;Lasso Regression&quot;</span><span class="p">,</span><span class="n">X_train_preproc</span><span class="p">,</span><span class="n">X_test_preproc</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
 
 <span class="c1"># Plot important coefficients</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">coefs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">lasso</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">X_train_preproc</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Lasso picked &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">coefs</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; features and eliminated the other &quot;</span> <span class="o">+</span>  \
       <span class="nb">str</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">coefs</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; features&quot;</span><span class="p">)</span>
@@ -752,12 +726,12 @@ RMSE orig price: 23420.30600879206
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03-model-building_27_0.png" src="_images/03-model-building_27_0.png" />
-<img alt="_images/03-model-building_27_1.png" src="_images/03-model-building_27_1.png" />
+<img alt="_images/03-model-building_26_0.png" src="_images/03-model-building_26_0.png" />
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Lasso picked 174 features and eliminated the other 292 features
 </pre></div>
 </div>
-<img alt="_images/03-model-building_27_3.png" src="_images/03-model-building_27_3.png" />
+<img alt="_images/03-model-building_26_2.png" src="_images/03-model-building_26_2.png" />
+<img alt="_images/03-model-building_26_3.png" src="_images/03-model-building_26_3.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -804,22 +778,8 @@ cv5 test rmse: [0.12335639 0.13357488 0.15226293 0.10698545 0.10213062]
              <span class="n">n_jobs</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
              <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="n">enet</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>ElasticNetCV(alphas=[0.0001, 0.0003, 0.0006, 0.001, 0.003, 0.006, 0.01, 0.03,
-                     0.06, 0.1, 0.3, 0.6, 1],
-             cv=5,
-             l1_ratio=array([0. , 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1. ]),
-             max_iter=50000, n_jobs=16, random_state=42)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Best alpha: &#39;</span><span class="p">,</span><span class="n">enet</span><span class="o">.</span><span class="n">alpha_</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Best alpha: &#39;</span><span class="p">,</span><span class="n">enet</span><span class="o">.</span><span class="n">alpha_</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Best l1_ratio: &#39;</span><span class="p">,</span><span class="n">enet</span><span class="o">.</span><span class="n">l1_ratio_</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -837,58 +797,33 @@ Best l1_ratio:  0.9
 <span class="n">enet</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
 <span class="n">y_pred</span> <span class="o">=</span> <span class="n">enet</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_preproc</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq:&#39;</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE:&#39;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">)))</span>
-
-<span class="n">y_pred_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq:&#39;</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span><span class="n">y_pred_exp</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE:&#39;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span><span class="n">y_pred_exp</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span><span class="n">y_pred_exp</span><span class="p">)))</span>
+<span class="n">test_accuracy</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>R-sq: 0.9089864660642593
-MSE: 0.013707223549868945
-RMSE: 0.11707785251647275
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Validation set performance measures:
 --------------------------------------------------
-R-sq: 0.9087354556227382
-MSE: 485921339.8266356
-RMSE: 22043.623563893383
+R-sq: 0.909
+MSE: 0.014
+RMSE: 0.117
+--------------------------------------------------
+R-sq orig price: 0.909
+MSE orig price: 485921339.83
+RMSE orig price: $22043.62
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y_train_ela</span> <span class="o">=</span> <span class="n">enet</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">)</span>
-<span class="n">y_test_ela</span> <span class="o">=</span> <span class="n">enet</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_preproc</span><span class="p">)</span>
-
-<span class="c1"># Plot residuals</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_train_ela</span><span class="p">,</span> <span class="n">y_train_ela</span> <span class="o">-</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Training data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_test_ela</span><span class="p">,</span> <span class="n">y_test_ela</span> <span class="o">-</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;lightgreen&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Validation data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Linear regression with ElasticNet regularization&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted values&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Residuals&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span> <span class="o">=</span> <span class="mf">10.5</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="mf">13.5</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># Plot predictions</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_train_ela</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Training data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_test_ela</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;lightgreen&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Validation data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Linear regression with ElasticNet regularization&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted values&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Real values&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">10.5</span><span class="p">,</span> <span class="mf">13.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">10.5</span><span class="p">,</span> <span class="mf">13.5</span><span class="p">],</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot residuals and predicted value plots</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">enet</span><span class="p">,</span><span class="s2">&quot;Elastic-Net Regression&quot;</span><span class="p">,</span><span class="n">X_train_preproc</span><span class="p">,</span><span class="n">X_test_preproc</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
 
 <span class="c1"># Plot important coefficients</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">coefs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">enet</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">X_train_preproc</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ElasticNet picked &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">coefs</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; features and eliminated the other &quot;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">coefs</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; features&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Elastic-Net picked &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">coefs</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; features and eliminated the other &quot;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">coefs</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; features&quot;</span><span class="p">)</span>
 <span class="n">imp_coefs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">coefs</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
                      <span class="n">coefs</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>
 <span class="n">imp_coefs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;barh&quot;</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
@@ -897,12 +832,12 @@ RMSE: 22043.623563893383
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03-model-building_34_0.png" src="_images/03-model-building_34_0.png" />
-<img alt="_images/03-model-building_34_1.png" src="_images/03-model-building_34_1.png" />
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ElasticNet picked 146 features and eliminated the other 320 features
+<img alt="_images/03-model-building_32_0.png" src="_images/03-model-building_32_0.png" />
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Elastic-Net picked 146 features and eliminated the other 320 features
 </pre></div>
 </div>
-<img alt="_images/03-model-building_34_3.png" src="_images/03-model-building_34_3.png" />
+<img alt="_images/03-model-building_32_2.png" src="_images/03-model-building_32_2.png" />
+<img alt="_images/03-model-building_32_3.png" src="_images/03-model-building_32_3.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -948,56 +883,31 @@ cv5 test rmse: [0.12009171 0.12695604 0.14997704 0.10703355 0.09994046]
 <span class="n">svm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
 <span class="n">y_pred</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_preproc</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq:&#39;</span><span class="p">,</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE:&#39;</span><span class="p">,</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">)))</span>
-
-<span class="n">y_pred_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq:&#39;</span><span class="p">,</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span><span class="n">y_pred_exp</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE:&#39;</span><span class="p">,</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span><span class="n">y_pred_exp</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE:&#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span><span class="n">y_pred_exp</span><span class="p">)))</span>
+<span class="n">test_accuracy</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>R-sq: 0.8955105394422324
-MSE: 0.015736784767436555
-RMSE: 0.12544634218436404
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Validation set performance measures:
 --------------------------------------------------
-R-sq: 0.9072454176935487
-MSE: 493854773.69062626
-RMSE: 22222.843510465224
+R-sq: 0.896
+MSE: 0.016
+RMSE: 0.125
+--------------------------------------------------
+R-sq orig price: 0.907
+MSE orig price: 493854773.69
+RMSE orig price: $22222.84
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y_train_svm</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train_preproc</span><span class="p">)</span>
-<span class="n">y_test_svm</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_preproc</span><span class="p">)</span>
-
-<span class="c1"># Plot residuals</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_train_svm</span><span class="p">,</span> <span class="n">y_train_svm</span> <span class="o">-</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Training data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_test_svm</span><span class="p">,</span> <span class="n">y_test_svm</span> <span class="o">-</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;lightgreen&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Validation data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;SVM regression with regularization&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted values&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Residuals&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span> <span class="o">=</span> <span class="mf">10.5</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="mf">13.5</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># Plot predictions</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_train_svm</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Training data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_test_svm</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;lightgreen&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Validation data&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;SVM regression with regularization&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted values&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Real values&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">10.5</span><span class="p">,</span> <span class="mf">13.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">10.5</span><span class="p">,</span> <span class="mf">13.5</span><span class="p">],</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot residuals and predicted value plots</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">svm</span><span class="p">,</span><span class="s2">&quot;SVR&quot;</span><span class="p">,</span><span class="n">X_train_preproc</span><span class="p">,</span><span class="n">X_test_preproc</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
 
 <span class="c1"># Plot important coefficients</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">coefs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">svm</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span> <span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">X_train_preproc</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SVR picked up &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">coefs</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; features and eliminated &quot;</span> <span class="o">+</span>  \
       <span class="nb">str</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">coefs</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; features&quot;</span><span class="p">)</span>
@@ -1009,12 +919,12 @@ RMSE: 22222.843510465224
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03-model-building_39_0.png" src="_images/03-model-building_39_0.png" />
-<img alt="_images/03-model-building_39_1.png" src="_images/03-model-building_39_1.png" />
+<img alt="_images/03-model-building_37_0.png" src="_images/03-model-building_37_0.png" />
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>SVR picked up 432 features and eliminated 34 features
 </pre></div>
 </div>
-<img alt="_images/03-model-building_39_3.png" src="_images/03-model-building_39_3.png" />
+<img alt="_images/03-model-building_37_2.png" src="_images/03-model-building_37_2.png" />
+<img alt="_images/03-model-building_37_3.png" src="_images/03-model-building_37_3.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1055,58 +965,72 @@ cv5 test rmse: [0.13748197 0.14273305 0.14976952 0.13041601 0.11279205]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">max_features</span><span class="o">=</span><span class="s1">&#39;log2&#39;</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">700</span><span class="p">)</span>
-<span class="n">rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq:&#39;</span><span class="p">,</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE:&#39;</span><span class="p">,</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">)))</span>
-
-<span class="n">y_pred_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq:&#39;</span><span class="p">,</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span><span class="n">y_pred_exp</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE:&#39;</span><span class="p">,</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span><span class="n">y_pred_exp</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE:&#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span><span class="n">y_pred_exp</span><span class="p">)))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">param_dist</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="p">[</span><span class="mi">200</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">700</span><span class="p">,</span><span class="mi">900</span><span class="p">,</span><span class="mi">1200</span><span class="p">],</span><span class="n">max_features</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span><span class="s2">&quot;sqrt&quot;</span><span class="p">,</span><span class="s1">&#39;log2&#39;</span><span class="p">])</span>
+<span class="n">rf_cv</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span><span class="n">RandomForestRegressor</span><span class="p">(),</span>
+                           <span class="n">param_distributions</span><span class="o">=</span><span class="n">param_dist</span><span class="p">,</span>
+                           <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                           <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_squared_error&#39;</span><span class="p">,</span>
+                           <span class="n">n_iter</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">rf_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rf_cv</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>R-sq: 0.88744949117157
-MSE: 0.016950830480355106
-RMSE: 0.1301953550644381
---------------------------------------------------
-R-sq: 0.9049520499100965
-MSE: 506065390.1315929
-RMSE: 22495.89718441105
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>RandomForestRegressor(max_features=&#39;sqrt&#39;, n_estimators=500)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">feature_importance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">rf</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">,</span><span class="n">decimals</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">max_features</span><span class="o">=</span><span class="s1">&#39;sqrt&#39;</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="n">test_accuracy</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Validation set performance measures:
+--------------------------------------------------
+R-sq: 0.889
+MSE: 0.017
+RMSE: 0.129
+--------------------------------------------------
+R-sq orig price: 0.908
+MSE orig price: 487651737.75
+RMSE orig price: $22082.84
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot residuals and predicted value plots</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">rf</span><span class="p">,</span><span class="s2">&quot;Random Forest&quot;</span><span class="p">,</span><span class="n">X_train</span><span class="p">,</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
+
+<span class="c1"># Plot feature importance</span>
+<span class="n">feature_importance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">rf</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">,</span><span class="n">decimals</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
                                   <span class="n">index</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;importance&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;importance&#39;</span><span class="p">,</span>
                                                                                             <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">feature_importance</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;feature&#39;</span>
 <span class="n">feature_importance</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span> <span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;feature&#39;</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;importance&#39;</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">feature_importance</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;importance&#39;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)[:</span><span class="mi">10</span><span class="p">],</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Top 10 Important Features&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<img alt="_images/03-model-building_43_0.png" src="_images/03-model-building_43_0.png" />
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Top 10 Important Features&#39;)
 </pre></div>
 </div>
-<img alt="_images/03-model-building_46_1.png" src="_images/03-model-building_46_1.png" />
+<img alt="_images/03-model-building_43_2.png" src="_images/03-model-building_43_2.png" />
+<img alt="_images/03-model-building_43_3.png" src="_images/03-model-building_43_3.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1127,9 +1051,9 @@ RMSE: 22495.89718441105
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.15933741 0.14659796 0.14958894 0.15615774 0.11635182]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.15914632 0.14766085 0.14814019 0.15311745 0.11847762]
 ---------------------------------------------------------------------------
-cv5 test rmse: [0.13702471 0.13908535 0.17479379 0.10925205 0.12710171]
+cv5 test rmse: [0.134225   0.14090405 0.17533371 0.10315261 0.12639767]
 </pre></div>
 </div>
 </div>
@@ -1168,36 +1092,33 @@ cv5 test rmse: [0.13702471 0.13908535 0.17479379 0.10925205 0.12710171]
                                                              <span class="n">presort</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
                   <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;square&#39;</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
 <span class="n">ada</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
-
 <span class="n">y_pred</span> <span class="o">=</span> <span class="n">ada</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq:&#39;</span><span class="p">,</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE:&#39;</span><span class="p">,</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">)))</span>
-<span class="n">y_test_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
-<span class="n">y_pred_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq:&#39;</span><span class="p">,</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span><span class="n">y_pred_exp</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE:&#39;</span><span class="p">,</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span><span class="n">y_pred_exp</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE:&#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span><span class="n">y_pred_exp</span><span class="p">)))</span>
+<span class="n">test_accuracy</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>R-sq: 0.8921409494771921
-MSE: 0.016244266687156443
-RMSE: 0.12745299795280002
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Validation set performance measures:
 --------------------------------------------------
-R-sq: 0.9138170198016614
-MSE: 458865482.6908099
-RMSE: 21421.145690434252
+R-sq: 0.892
+MSE: 0.016
+RMSE: 0.127
+--------------------------------------------------
+R-sq orig price: 0.912
+MSE orig price: 469735958.30
+RMSE orig price: $21673.39
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">feature_importance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">ada</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">,</span><span class="n">decimals</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot residuals and predicted value plots</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">ada</span><span class="p">,</span><span class="s2">&quot;Ada-Boost Regression&quot;</span><span class="p">,</span><span class="n">X_train</span><span class="p">,</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
+
+<span class="c1"># Plot feature importance</span>
+<span class="n">feature_importance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">ada</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">,</span><span class="n">decimals</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
                                   <span class="n">index</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;importance&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;importance&#39;</span><span class="p">,</span>
                                                                                             <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">feature_importance</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;feature&#39;</span>
@@ -1210,10 +1131,12 @@ RMSE: 21421.145690434252
 </div>
 </div>
 <div class="cell_output docutils container">
+<img alt="_images/03-model-building_48_0.png" src="_images/03-model-building_48_0.png" />
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Top 10 Important Features&#39;)
 </pre></div>
 </div>
-<img alt="_images/03-model-building_51_1.png" src="_images/03-model-building_51_1.png" />
+<img alt="_images/03-model-building_48_2.png" src="_images/03-model-building_48_2.png" />
+<img alt="_images/03-model-building_48_3.png" src="_images/03-model-building_48_3.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1234,9 +1157,9 @@ RMSE: 21421.145690434252
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.15293093 0.15005148 0.14233265 0.15016784 0.12927571]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.15380078 0.15059596 0.14276386 0.14967929 0.13338524]
 ---------------------------------------------------------------------------
-cv5 test rmse: [0.13851086 0.14980942 0.1757214  0.0982557  0.12250067]
+cv5 test rmse: [0.13800103 0.15057056 0.17879575 0.09920351 0.12193858]
 </pre></div>
 </div>
 </div>
@@ -1257,37 +1180,31 @@ cv5 test rmse: [0.13851086 0.14980942 0.1757214  0.0982557  0.12250067]
 <span class="n">gbrt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
 <span class="n">y_pred</span> <span class="o">=</span> <span class="n">gbrt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test accuracies:&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq:&#39;</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE:&#39;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)))</span>
-
-<span class="n">y_pred_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R-sq orig price:&#39;</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span> <span class="n">y_pred_exp</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE orig price:&#39;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span> <span class="n">y_pred_exp</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE orig price:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_exp</span><span class="p">,</span> <span class="n">y_pred_exp</span><span class="p">)))</span>
+<span class="n">test_accuracy</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Test accuracies:
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Validation set performance measures:
 --------------------------------------------------
-R-sq: 0.9099636303642259
-MSE: 0.013560056321816345
-RMSE: 0.11644765485752105
+R-sq: 0.910
+MSE: 0.014
+RMSE: 0.116
 --------------------------------------------------
-R-sq orig price: 0.9164217485551487
-MSE orig price: 444997081.830258
-RMSE orig price: 21094.95394235925
+R-sq orig price: 0.916
+MSE orig price: 447762701.44
+RMSE orig price: $21160.40
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">feature_importance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">gbrt</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">,</span><span class="n">decimals</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot residuals and predicted value plots</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">gbrt</span><span class="p">,</span><span class="s2">&quot;Gradient Boost Regression&quot;</span><span class="p">,</span><span class="n">X_train</span><span class="p">,</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
+
+<span class="c1"># Plot feature importance</span>
+<span class="n">feature_importance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">gbrt</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">,</span><span class="n">decimals</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
                                   <span class="n">index</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;importance&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;importance&#39;</span><span class="p">,</span>
                                                                                             <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">feature_importance</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;feature&#39;</span>
@@ -1300,10 +1217,12 @@ RMSE orig price: 21094.95394235925
 </div>
 </div>
 <div class="cell_output docutils container">
+<img alt="_images/03-model-building_53_0.png" src="_images/03-model-building_53_0.png" />
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Top 10 Important Features&#39;)
 </pre></div>
 </div>
-<img alt="_images/03-model-building_56_1.png" src="_images/03-model-building_56_1.png" />
+<img alt="_images/03-model-building_53_2.png" src="_images/03-model-building_53_2.png" />
+<img alt="_images/03-model-building_53_3.png" src="_images/03-model-building_53_3.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1324,9 +1243,9 @@ RMSE orig price: 21094.95394235925
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.14969163 0.14213005 0.13613296 0.14321098 0.12056349]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cv5 train rmse: [0.15257654 0.14058014 0.13684474 0.14307054 0.1217168 ]
 ---------------------------------------------------------------------------
-cv5 test rmse: [0.12243268 0.15313214 0.16991284 0.10473891 0.11333608]
+cv5 test rmse: [0.12374961 0.15400026 0.1686439  0.10681878 0.11420104]
 </pre></div>
 </div>
 </div>
@@ -1418,7 +1337,7 @@ memory usage: 448.0+ bytes
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Train vs. Validation RMSE&#39;)
 </pre></div>
 </div>
-<img alt="_images/03-model-building_62_1.png" src="_images/03-model-building_62_1.png" />
+<img alt="_images/03-model-building_59_1.png" src="_images/03-model-building_59_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1488,10 +1407,10 @@ memory usage: 448.0+ bytes
     <tr>
       <th>7</th>
       <td>gbrt</td>
-      <td>0.138346</td>
-      <td>0.009878</td>
-      <td>0.132711</td>
-      <td>0.024757</td>
+      <td>0.138958</td>
+      <td>0.010067</td>
+      <td>0.133483</td>
+      <td>0.023811</td>
     </tr>
     <tr>
       <th>4</th>
@@ -1502,20 +1421,20 @@ memory usage: 448.0+ bytes
       <td>0.012631</td>
     </tr>
     <tr>
-      <th>6</th>
-      <td>ada</td>
-      <td>0.144952</td>
-      <td>0.008596</td>
-      <td>0.136960</td>
-      <td>0.025989</td>
-    </tr>
-    <tr>
       <th>5</th>
       <td>rf</td>
-      <td>0.145607</td>
-      <td>0.015314</td>
-      <td>0.137452</td>
-      <td>0.021446</td>
+      <td>0.145308</td>
+      <td>0.014042</td>
+      <td>0.136003</td>
+      <td>0.023433</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>ada</td>
+      <td>0.146045</td>
+      <td>0.007282</td>
+      <td>0.137702</td>
+      <td>0.026777</td>
     </tr>
     <tr>
       <th>0</th>
