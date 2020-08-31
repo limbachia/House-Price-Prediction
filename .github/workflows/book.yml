@@ -22,6 +22,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install jupyter-book
+        pip install pandas
         
     # Build the book
     - name: Build the book
