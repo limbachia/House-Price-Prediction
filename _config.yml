@@ -1,0 +1,13 @@
+# Book settings
+title: Ames, Iowa Housing Dataset
+author: Chirag Limbachia
+copyright: "2020"
+logo: "logo.png"
+
+execute:
+  exclude_patterns:
+    - "04-*"
+
+latex:
+  latex_documents:
+    targetname: book.tex
