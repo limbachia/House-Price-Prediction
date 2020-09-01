@@ -1,0 +1,8 @@
+jupyter-book>=0.7.0b
+pandas
+numpy
+matplotlib
+seaborn
+sklearn
+pickle
+warnings
