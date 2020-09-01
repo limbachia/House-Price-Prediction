@@ -14,3 +14,4 @@ data/Limbachia_lasso_predictions.csv
 data/Limbachia_ridge_predictions.csv
 data/keys.json
 data/sample_submission.csv
+.ipynb_checkpoints/
