@@ -1,5 +1,7 @@
 # House Price Prediction
 
+![](logo.png)
+
 This project uses Ames, Iowa housing dataset compiled by Dean De Cook. Dataset is available on [Kaggle](https://www.kaggle.com/c/house-prices-advanced-regression-techniques)
 
 Following notebooks include step-by-step data analysis; from data wrangling to building a machine learning model that predicts house prices as accurately as possible.  
@@ -12,4 +14,4 @@ Following notebooks include step-by-step data analysis; from data wrangling to b
 
 
 Lasso regression performed the best. The model was finally tested on the test dataset (provided by kaggle). 
-The test __Root-Mean-Squared-Error__ was __0.11840__ which placed the submission in the top 5% of [kaggle's leaderboard](https://www.kaggle.com/c/house-prices-advanced-regression-techniques/leaderboard#score).
+The test accuray was __91%__ (RMSE = 0.11840) which placed the submission in the top 5% of [kaggle's leaderboard](https://www.kaggle.com/c/house-prices-advanced-regression-techniques/leaderboard#score).
